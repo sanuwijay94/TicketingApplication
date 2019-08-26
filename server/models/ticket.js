@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const TicketSchema = new Schema(
     {
         subject: {type: String, required: true},
-        Description: {type: String, required: true},
+        description: {type: String, required: true},
         created_date: {type: Date, required: true},
         due_date: {type: Date, required: true},
         ticket_state: {type: String, enum: ['Open', 'Progressing', 'Done', 'Closed'], required: true},

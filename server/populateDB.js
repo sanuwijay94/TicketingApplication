@@ -24,7 +24,7 @@ const users = [];
 function ticketCreate(cb) {
     const ticket = new Ticket({
         subject: 'Add feature',
-        Description: 'sldjn vnwpvn wvwnv wvwnvpw wvnwpvnw',
+        description: 'sldjn vnwpvn wvwnv wvwnvpw wvnwpvnw',
         created_date: '2018-07-30',
         due_date: '2018-08-30',
         ticket_state: 'Progressing',
@@ -34,7 +34,7 @@ function ticketCreate(cb) {
     });
     const ticket1 = new Ticket({
         subject: 'Bug fix',
-        Description: 'nhjtdjn vklugn ugnv wykhvw ssdjapvnw',
+        description: 'nhjtdjn vklugn ugnv wykhvw ssdjapvnw',
         created_date: '2018-08-26',
         due_date: '2018-09-10',
         ticket_state: 'Open',
