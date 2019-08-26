@@ -1,4 +1,4 @@
-console.log('This script populates some test Projects, Employees, Clients, Phases, Tasks, Resources and Admins to your database. Specified database as argument - e.g.: populatedb mongodb://your_username:your_password@your_dabase_url');
+console.log('This script populates some test Ticket, User to your database. Specified database as argument - e.g.: populatedb mongodb://your_username:your_password@your_dabase_url');
 
 // Get arguments passed on command line
 const userArgs = process.argv.slice(2);
@@ -8,15 +8,8 @@ if (!userArgs[0].startsWith('mongodb://')) {
 }
 
 const async = require('async');
-const Project = require('./models/project');
-const Employee = require('./models/employee');
-const Resource = require('./models/resource');
-const Client = require('./models/client');
-const Phase = require('./models/phase');
-const Task = require('./models/task');
-const Admin = require('./models/admin');
-
-
+const Ticket = require('./models/ticket');
+const User = require('./models/user');
 
 const mongoose = require('mongoose');
 const mongoDB = userArgs[0];
@@ -25,317 +18,115 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-const projects = [];
-const employees = [];
-const resources = [];
-const clients = [];
-const phases = [];
+const tickets = [];
+const users = [];
 
-function projectCreate(cb) {
-    const project = new Project({
-        name: 'Project Management',
-        type: 'IT',
-        start_date: '2017-06-06',
-        deadline: '2018-02-06',
-        budget: 45000,
-        percentage_complete: 40.5,
-        client: clients[0],
-        employees: employees,
-        resources: resources
+function ticketCreate(cb) {
+    const ticket = new Ticket({
+        subject: 'Add feature',
+        Description: 'sldjn vnwpvn wvwnv wvwnvpw wvnwpvnw',
+        created_date: '2018-07-30',
+        due_date: '2018-08-30',
+        ticket_state: 'Progressing',
+        assignee: users[0],
+        submitter: users[1],
+        requester: '0713872266'
     });
-    const project1 = new Project({
-        name: 'Crop Management',
-        type: 'Agriculture',
-        start_date: '2017-11-16',
-        deadline: '2018-07-22',
-        budget: 85000,
-        percentage_complete: 25.5,
-        client: clients[1],
-        employees: [],
-        resources: []
+    const ticket1 = new Ticket({
+        subject: 'Bug fix',
+        Description: 'nhjtdjn vklugn ugnv wykhvw ssdjapvnw',
+        created_date: '2018-08-26',
+        due_date: '2018-09-10',
+        ticket_state: 'Open',
+        assignee: users[0],
+        submitter: users[1],
+        requester: '0773845667'
     });
-    project.save( function (err)
+    ticket.save( function (err)
     {
         if (err) {
-            cb('project', null);
+            cb('ticket', null);
             return;
         }
-        project1.save( function (err)
+        ticket1.save( function (err)
         {
             if (err) {
-                cb('project1', null);
+                cb('ticket1', null);
                 return;
             }
-            console.log('New Project1: ' + project1);
-            projects.push(project);
-            console.log('New Project2: ' + project);
-            projects.push(project1);
-            cb(null, project)
+            console.log('New Ticket1: ' + ticket1);
+            tickets.push(ticket);
+            console.log('New Ticket2: ' + ticket);
+            tickets.push(ticket1);
+            cb(null, ticket)
         });
 
     })
 }
-function employeeCreate(cb) {
-    const employee = new Employee({
+function userCreate(cb) {
+    const user = new User({
         first_name: 'sanura',
         last_name: 'wijayarathne',
-        date_of_birth: '',
-        phone: '0771234563',
+        date_of_birth: '1994-06-14',
+        phone: '0771236703',
         email: 'sanura@gmail.com',
-        type: 'Dev',
-        status: 'Not-Available',
+        type: 'Supervisor',
         username: 'sanuwijay94',
         password: '123'
     });
-    const employee1 = new Employee({
+    const user1 = new User({
         first_name: 'dinura',
         last_name: 'wijayarathne',
-        date_of_birth: '',
+        date_of_birth: '1994-06-13',
         phone: '077193745',
         email: 'dinura@gmail.com',
-        type: 'PM',
-        status: 'Not-Available',
+        type: 'Agent',
         username: 'dinur-el',
-        password: 'dinu'
+        password: 'abc'
     });
-    employee.save(function (err) {
+    user.save(function (err) {
         if (err) {
-            cb('employee1', null);
+            cb('user1', null);
             return;
         }
-        employee1.save(function (err) {
+        user1.save(function (err) {
             if (err) {
-                cb('employee2', null);
+                cb('user2', null);
                 return;
             }
-            console.log('New Employee1: ' + employee1);
-            employees.push(employee1);
-            console.log('New Employee2: ' + employee);
-            employees.push(employee);
-            cb(null, employee);
-        });
-    });
-}
-
-function resourceCreate(cb) {
-    const resource = new Resource({
-        name: 'server',
-        type: 'facilities',
-        status: 'Not-Available'
-    });
-    const resource1 = new Resource({
-        name: 'server',
-        type: 'facilities',
-        status: 'Available'
-    });
-    resource.save(function (err) {
-        if (err) {
-            cb('resource', null);
-            return
-        }
-        resource1.save(function (err) {
-            if (err) {
-                cb('resource1', null);
-                return
-            }
-            console.log('New Resource1 ' + resource1);
-            resources.push(resource1);
-            console.log('New Resource2' + resource);
-            resources.push(resource);
-            cb(null, resource);
+            console.log('New User1: ' + user1);
+            users.push(user1);
+            console.log('New User2: ' + user);
+            users.push(user);
+            cb(null, user);
         });
     });
 }
 
 
-function clientCreate(cb) {
-    const client = new Client({
-        name: 'WHO',
-        type: 'Organization',
-        phone: '0729375832',
-        email: 'who@gmail.com',
-        username: 'WHO2018',
-        password: 'who123'
-    });
-    const client1 = new Client({
-        name: 'Christiano Ronaldo',
-        type: 'Person',
-        phone: '0729322232',
-        email: 'ronaldo@gmail.com',
-        username: 'ronaldo',
-        password: '07'
-    });
-    client.save(function (err) {
-        if (err) {
-            cb('client1', null);
-            return
-        }
-        client1.save(function (err) {
-            if (err) {
-                cb('client2', null);
-                return
-            }
-            console.log('New Client1: ' + client);
-            clients.push(client);
-            console.log('New Client2: ' + client1);
-            clients.push(client1);
-            cb(null, client);
-        });
-    });
-}
-
-
-function phaseCreate(cb) {
-    const phase = new Phase({
-        name: 'Requirement gathering',
-        start_date: '2017-06-06',
-        end_date: '',
-        project: projects[0]
-    });
-    const phase1 = new Phase({
-        name: 'Requirement analysis',
-        start_date: '2017-08-06',
-        end_date: '',
-        project: projects[0]
-    });
-    phase.save(function (err) {
-        if (err) {
-            cb('phase', null);
-            return
-        }
-        phase1.save(function (err) {
-            if (err) {
-                cb('phase1', null);
-                return
-            }
-            console.log('New Phase1 ' + phase);
-            phases.push(phase);
-            console.log('New Phase2 ' + phase1);
-            phases.push(phase1);
-            cb(null, phase)
-        });
-
-    });
-}
-
-
-function taskCreate(cb) {
-    const task = new Task({
-        description: 'Create Models',
-        employee: employees[0],
-        phase: phases[0],
-        status: 'completed'
-    });
-    const task1 = new Task({
-        description: 'Create login UI',
-        employee: employees[1],
-        phase: phases[0],
-        status: 'on-going'
-    });
-    const task2 = new Task({
-        description: 'Create registration',
-        employee: employees[0],
-        phase: phases[1],
-        status: 'on-going'
-    });
-    task.save(function (err) {
-        if (err) {
-            cb('task1', null);
-            return
-        }
-        task1.save(function (err) {
-            if (err) {
-                cb('task2', null);
-                return
-            }
-            task2.save(function (err) {
-                if (err) {
-                    cb('task3', null);
-                    return
-                }
-                console.log('New Task1 ' + task);
-                console.log('New Task2 ' + task1);
-                console.log('New Task3 ' + task2);
-                cb(null, task)
-            });
-        });
-    });
-}
-
-
-function adminCreate(cb) {
-    console.log('admin create');
-    const admin = new Admin({
-        username: 'admin',
-        password: 'admin',
-        type: 'admin'
-    });
-    admin.save(function (err) {
-        if (err) {
-            cb('admin', null);
-            return
-        }
-        console.log('New Admin: ' + admin);
-        cb(null, admin);
-    });
-}
-
-
-function createEmployeeClientResourceAdmin(cb) {
-    async.parallel([
-            function(callback) {
-                employeeCreate(callback);
-            },
-            function(callback) {
-                clientCreate(callback);
-            },
-            function(callback) {
-                resourceCreate(callback);
-            },
-            function(callback) {
-                adminCreate(callback);
-            }
-        ],
-        // optional callback
-        cb);
-}
-
-function createProject(cb) {
+function createUser(cb) {
     async.parallel([
         function(callback) {
-            projectCreate(callback);
+            userCreate(callback);
         }
     ],
     // optional callback
     cb);
 }
 
-function createPhase(cb) {
+function createTicket(cb) {
     async.parallel([
-            function(callback) {
-                phaseCreate(callback);
-            }
-        ],
-        // Optional callback
-        cb);
+        function(callback) {
+            ticketCreate(callback);
+        }
+    ],
+    // optional callback
+    cb);
 }
-
-function createTask(cb) {
-    async.parallel([
-            function(callback) {
-                taskCreate(callback);
-            }
-        ],
-        // Optional callback
-        cb);
-}
-
 
 async.series([
-        createEmployeeClientResourceAdmin,
-        createProject,
-        createPhase,
-        createTask
+        createUser,
+        createTicket
     ],
 // Optional callback
     function(err, results) {
