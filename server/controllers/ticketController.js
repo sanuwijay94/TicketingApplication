@@ -54,7 +54,7 @@ exports.ticket_create_post = function(req, res) {
         created_date: 'required|date',
         due_date: 'required|date',
         ticket_state: 'required|in:Open,Progressing,Done,Closed',
-        assignee: 'required|alpha_numeric',
+        assignee: 'alpha_numeric',
         submitter: 'required|alpha_numeric',
         requester: 'required'
     };
@@ -128,7 +128,7 @@ exports.ticket_update_post = function(req, res) {
         created_date: 'required|date',
         due_date: 'required|date',
         ticket_state: 'required|in:Open,Progressing,Done,Closed',
-        assignee: 'required|alpha_numeric',
+        assignee: 'alpha_numeric',
         submitter: 'required|alpha_numeric',
         requester: 'required'
     };

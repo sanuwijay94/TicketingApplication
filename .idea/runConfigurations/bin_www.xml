@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="bin\www" type="NodeJSConfigurationType" factoryName="Node.js" node-parameters=".\bin\www" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$/server">
+    <envs>
+      <env name="DEBUG" value="Project:*" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>

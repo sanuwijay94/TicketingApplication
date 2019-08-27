@@ -1,5 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="www" type="NodeJSConfigurationType" factoryName="Node.js" editBeforeRun="true" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$/server/bin">
-    <method v="2" />
-  </configuration>
-</component>

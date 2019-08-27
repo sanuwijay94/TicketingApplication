@@ -9,7 +9,7 @@ const TicketSchema = new Schema(
         created_date: {type: Date, required: true},
         due_date: {type: Date, required: true},
         ticket_state: {type: String, enum: ['Open', 'Progressing', 'Done', 'Closed'], required: true},
-        assignee: {type: Schema.ObjectId, ref: 'User', required: true},
+        assignee: {type: Schema.ObjectId, ref: 'User'},
         submitter: {type: Schema.ObjectId, ref: 'User', required: true},
         requester: {type: String, required: true}
     }
