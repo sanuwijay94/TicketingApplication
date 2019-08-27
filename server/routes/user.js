@@ -22,7 +22,7 @@ router.get('/:id', authentication.all, user.user_detail);//all
 router.get('/', authentication.all, user.user_list);//all
 
 // GET Tickets of User
-router.get('/:empId/projects/', authentication.all, ticket.getUserTickets);//all
+router.get('/:empId/projects/', authentication.all, ticket.getUserTickets);//
 
 // GET Ticket of User
 router.get('/:empId/projects/:id', authentication.all, ticket.ticket_detail);//all

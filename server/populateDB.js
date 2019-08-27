@@ -72,7 +72,7 @@ function userCreate(cb) {
         email: 'sanura@gmail.com',
         type: 'Supervisor',
         username: 'sanuwijay94',
-        password: '123'
+        password: '1234'
     });
     const user1 = new User({
         first_name: 'dinura',
@@ -82,7 +82,7 @@ function userCreate(cb) {
         email: 'dinura@gmail.com',
         type: 'Agent',
         username: 'dinur-el',
-        password: 'abc'
+        password: 'abcd'
     });
     user.save(function (err) {
         if (err) {
