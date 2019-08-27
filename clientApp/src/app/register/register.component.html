@@ -1,0 +1,75 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center text-white mb-4">Bootstrap 4 Register Form</h2>
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+
+          <!-- form card login -->
+          <div class="card rounded-0">
+            <div class="card-header">
+              <h3 class="mb-0">Register</h3>
+            </div>
+            <div class="card-body">
+              <form class="form" role="form" autocomplete="off" id="formLogin" novalidate="" method="POST">
+                <div class="form-group">
+                  <label>First name</label>
+                  <input [(ngModel)]="registerUserData.first_name" type="text" class="form-control form-control-lg rounded-0" name="first_name" id="first_name" required="">
+                  <div class="invalid-feedback">Enter your first name too.</div>
+                </div>
+                <div class="form-group">
+                  <label>Last name</label>
+                  <input [(ngModel)]="registerUserData.last_name" type="text" class="form-control form-control-lg rounded-0" name="last_name" id="last_name" required="">
+                  <div class="invalid-feedback">Enter your last name too.</div>
+                </div>
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input [(ngModel)]="registerUserData.username" type="text" class="form-control form-control-lg rounded-0" name="username" id="username" required="">
+                  <div class="invalid-feedback">Enter your username too.</div>
+                </div>
+                <div class="form-group">
+                  <label>Password</label>
+                  <input [(ngModel)]="registerUserData.password" type="password" class="form-control form-control-lg rounded-0" id="password" name="password" required="" autocomplete="new-password">
+                  <div class="invalid-feedback">Enter your password too!</div>
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input [(ngModel)]="registerUserData.email" type="email" class="form-control form-control-lg rounded-0" id="email" name="email">
+                  <div class="invalid-feedback">Enter your Email too!</div>
+                </div>
+                <div class="form-group">
+                  <label>Phone</label>
+                  <input [(ngModel)]="registerUserData.phone" type="tel" class="form-control form-control-lg rounded-0" id="phone" name="phone" required="">
+                  <div class="invalid-feedback">Enter your Phone number too!</div>
+                </div>
+                <div class="form-group">
+                  <label>Date Of Birth</label>
+                  <input [(ngModel)]="registerUserData.date_of_birth" type="date" class="form-control form-control-lg rounded-0" id="date_of_birth" name="date_of_birth">
+                  <div class="invalid-feedback">Enter your Date of birth too!</div>
+                </div>
+                <div class="form-group">
+                  <label>User Type</label>
+                  <br><input [(ngModel)]="registerUserData.type" value="Supervisor" type="radio" name="type">Supervisor
+                  <br><input [(ngModel)]="registerUserData.type" value="Agent" type="radio" name="type">Agent
+                  <div class="invalid-feedback">Select your UserType too!</div>
+                </div>
+
+                <button (click)="registerUser()" type="button" class="btn btn-success btn-lg float-right" id="btnRegister">Register</button>
+              </form>
+            </div>
+            <!--/card-block-->
+          </div>
+          <!-- /form card login -->
+
+        </div>
+
+
+      </div>
+      <!--/row-->
+
+    </div>
+    <!--/col-->
+  </div>
+  <!--/row-->
+</div>
+<!--/container-->

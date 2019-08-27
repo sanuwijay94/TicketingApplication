@@ -1,0 +1,77 @@
+<div class="row mt-5">
+    <div class="col-md-4 mb-3" *ngFor="let ticket of tickets">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">{{ticket.subject}}</h5>
+                <p class="card-text">{{ticket.ticket_state}}</p>
+                <p class="card-text">Due Date: {{ticket.due_date | date:'shortDate'}}</p>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-info" >View</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" *ngFor="let project of projects">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Update Project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Name</span>
+                            <input type="text" class="form-control" placeholder="{{project.name}}" aria-label="name" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon2">Type</span>
+                            <input type="text" class="form-control" placeholder="{{project.type}}" aria-label="name" aria-describedby="basic-addon2">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Rs.</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="{{project.budget}}" aria-label="Amount (to the nearest dollar)">
+                        <div class="input-group-append">
+                            <span class="input-group-text">.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Clients</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01">
+                        <option selected>Choose...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="date" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
