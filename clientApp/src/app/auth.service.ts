@@ -38,12 +38,12 @@ export class AuthService {
         return this.http.get<any>('http://127.0.0.1:3000/ticket/'+id);
     }
 
-    /*updateTicket(ticket) {
-        return this.http.get<any>('http://127.0.0.1:3000/ticket/'+id);
-    }*/
+    updateTicket(ticket) {
+        return this.http.patch<any>('http://127.0.0.1:3000/ticket/'+ticket._id+'/update',ticket);
+    }
 
     deleteTicket(id){
-        return this.http.get<any>('http://127.0.0.1:3000/ticket/'+id+'/delete');
+        return this.http.delete<any>('http://127.0.0.1:3000/ticket/'+id+'/delete');
     }
     LoggedIn() {
         return !!localStorage.getItem('token');

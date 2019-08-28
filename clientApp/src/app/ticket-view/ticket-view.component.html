@@ -1,13 +1,13 @@
 <div class="row mt-5" >
-    <div class="col-md-6 mb-6" >
+    <div class="col-md-10 mb-6" >
         <div class="card text-center">
             <div class="card-body">
                 <h5 class="card-title">{{ticket.subject}}</h5>
                 <p class="card-text">{{ticket.description}}</p>
                 <p class="card-text">Created on: {{ticket.created_date | date:'shortDate'}}</p>
                 <p class="card-text">Due date: {{ticket.due_date | date:'shortDate'}}</p>
-                <p class="card-text">Submitted by: {{ticket.submitter.username}}</p>
                 <p class="card-text">Assigned to: {{ticket.assignee.username}}</p>
+                <p class="card-text">Submitted by: {{ticket.submitter.username}}</p>
                 <p class="card-text">Requester Phone: {{ticket.requester}}</p>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#updateModal">Update</button>
@@ -35,33 +35,29 @@
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Subject</span>
-                            <input type="text" class="form-control" placeholder="{{ticket.subject}}" aria-label="subject" aria-describedby="basic-addon1">
+                            <span class="input-group-text" id="subject">Subject</span>
+                            <input [(ngModel)]="ticket.subject" type="text" class="form-control" placeholder="{{ticket.subject}}" aria-label="subject" aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon2">Description</span>
-                            <input type="text" class="form-control" placeholder="{{ticket.description}}" aria-label="description" aria-describedby="basic-addon2">
+                            <span class="input-group-text" id="description">Description</span>
+                            <input [(ngModel)]="ticket.description" type="text" class="form-control" placeholder="{{ticket.description}}" aria-label="description" aria-describedby="basic-addon2">
                         </div>
                     </div>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Status</label>
+                        <label class="input-group-text" for="status">Status</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect01">
-                        <option value="Open" selected>Open</option>
-                        <option value="Progressing">Progressing</option>
-                        <option value="Done">Done</option>
-                        <option value="Closed">Closed</option>
+                    <select class="custom-select" id="status" [(ngModel)]="ticket.ticket_state">
+                        <option  value="Open" selected>Open</option>
+                        <option  value="Progressing">Progressing</option>
+                        <option  value="Done">Done</option>
+                        <option  value="Closed">Closed</option>
                     </select>
-                </div>
-                <div class="input-group date" data-provide="datepicker">
-                    <span class="input-group-text" id="basic-addon3">Due Date</span>
-                    <input type="date" class="form-control" value="{{ticket.description}}">
                 </div>
             </div>
             <div class="modal-footer">
@@ -86,8 +82,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button (click)="deleteTicket(ticket._id)" type="button" class="btn btn-primary">Yes, Delete</button>
+                <button (click)="deleteTicket(ticket._id)" type="button" class="btn btn-primary" data-dismiss="modal"data-toggle="alert" data-target="#deleteAlert">Yes, Delete</button>
             </div>
         </div>
     </div>
+</div>
+
+<div class="alert alert-warning" role="alert" *ngIf="delete==true" id="deleteAlert" >
+    This is a warning alert—check it out!
 </div>

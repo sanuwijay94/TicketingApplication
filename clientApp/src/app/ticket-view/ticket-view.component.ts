@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from "../auth.service";
+import {$} from "protractor";
 
 @Component({
   selector: 'app-ticket-view',
@@ -8,9 +9,11 @@ import {AuthService} from "../auth.service";
   styleUrls: ['./ticket-view.component.css']
 })
 export class TicketViewComponent implements OnInit {
-  ticket ={};
+    ticket ={};
+    prevTicket = {};
   constructor(private route: ActivatedRoute,
-              private _auth: AuthService) { }
+              private _auth: AuthService,
+              private _router: Router) { }
 
   ngOnInit() {
       this.route
@@ -20,6 +23,7 @@ export class TicketViewComponent implements OnInit {
                   .subscribe(
                       res => {
                           console.log(params['selectedTicket']);
+                          //this.ticket = this.prevTicket;
                           this.ticket = res
                       },
                       err => console.log(err)
@@ -28,16 +32,34 @@ export class TicketViewComponent implements OnInit {
   }
 
 
-  /*updateTicket(ticket){
-      this._auth.updateTicket(ticket);
-  }*/
+  updateTicket(ticket){
+      ticket.assignee = ticket.assignee._id;
+      ticket.submitter = ticket.submitter._id;
+      console.log(ticket);
+      this._auth.updateTicket(ticket)
+          .subscribe(
+                  res => {
+                      console.log(res);
+                      this.reload(ticket);
+                  },
+                  err => console.log(err)
+              );
+
+  }
+    reload(ticket){
+        console.log('aaaaaaaaaa')
+        this._router.navigate(['/ticketView'],{ queryParams: { selectedTicket: ticket._id } } );
+    }
 
 
   deleteTicket(id){
+      console.log(id);
+      console.log(localStorage.getItem('token'));
       this._auth.deleteTicket(id)
           .subscribe(
               res => {
                   console.log(res);
+                  this._router.navigate(['/tickets']);
               },
               err => console.log(err)
           );
