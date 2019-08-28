@@ -7,6 +7,7 @@ export class AuthService {
     private _loginUrl = 'http://127.0.0.1:3000/login';
     private _registerUrl = 'http://127.0.0.1:3000/user/create';
     private _ticketsUrl = 'http://127.0.0.1:3000/ticket/';
+    private _ticketViewUrl = 'http://127.0.0.1:3000/ticket/';
     private _myTicketsUrl;
     private userId: String;
     constructor(private http: HttpClient) {
@@ -27,11 +28,23 @@ export class AuthService {
     allTickets() {
         return this.http.get<any>(this._ticketsUrl);
     }
+
     myTickets() {
         this._myTicketsUrl =this.setUrl()
         return this.http.get<any>(this._myTicketsUrl);
     }
 
+    ticketView(id){
+        return this.http.get<any>('http://127.0.0.1:3000/ticket/'+id);
+    }
+
+    /*updateTicket(ticket) {
+        return this.http.get<any>('http://127.0.0.1:3000/ticket/'+id);
+    }*/
+
+    deleteTicket(id){
+        return this.http.get<any>('http://127.0.0.1:3000/ticket/'+id+'/delete');
+    }
     LoggedIn() {
         return !!localStorage.getItem('token');
     }

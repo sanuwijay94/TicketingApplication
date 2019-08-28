@@ -6,7 +6,7 @@
                 <p class="card-text">{{ticket.ticket_state}}</p>
                 <p class="card-text">Due Date: {{ticket.due_date | date:'shortDate'}}</p>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-info" >View</button>
+                    <button (click)="viewTicket(ticket._id)" class="btn btn-info" id="view" >View</button>
                 </div>
             </div>
         </div>
