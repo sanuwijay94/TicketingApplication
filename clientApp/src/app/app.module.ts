@@ -11,6 +11,7 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { AuthService } from './auth.service';
 import {AuthGuard} from './auth.guard';
 import { TokenInterceptorService } from './token-interceptor.service';
+import { MyTicketsComponent } from './my-tickets/my-tickets.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TokenInterceptorService } from './token-interceptor.service';
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    TicketsComponent
+    TicketsComponent,
+    MyTicketsComponent
   ],
   imports: [
     BrowserModule,

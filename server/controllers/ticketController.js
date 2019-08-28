@@ -158,7 +158,7 @@ exports.ticket_update_post = function(req, res) {
 
 // get tickets that user assigned for on GET
 exports.getUserTickets = function(req, res) {
-    userMiddleware.ticketsOfUser(req.params.userId, function(tickets) {
+    userMiddleware.ticketsOfUser(req.params.id, function(tickets) {
         Ticket.find({'_id': {$in: tickets}}, '_id subject description resources created_date due_date ticket_state assignee submitter requester', function (err, result) {
             if (err||!result) {
                 return res.status(404).json({

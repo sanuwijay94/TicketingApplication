@@ -1,10 +1,10 @@
 <div class="row mt-5">
-    <div class="col-md-4 mb-3" *ngFor="let ticket of tickets">
+    <div class="col-md-4 mb-3" *ngFor="let myTicket of myTickets">
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">{{ticket.subject}}</h5>
-                <p class="card-text">{{ticket.ticket_state}}</p>
-                <p class="card-text">Due Date: {{ticket.due_date | date:'shortDate'}}</p>
+                <h5 class="card-title">{{myTicket.subject}}</h5>
+                <p class="card-text">{{myTicket.ticket_state}}</p>
+                <p class="card-text">Due Date: {{myTicket.due_date | date:'shortDate'}}</p>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-info" >View</button>
                 </div>

@@ -14,6 +14,10 @@ export class RegisterComponent implements OnInit {
               private _router: Router) { }
 
   ngOnInit() {
+
+  }
+
+  registerUser() {
       this._auth.registerUser(this.registerUserData)
           .subscribe(
               res => {
@@ -23,7 +27,6 @@ export class RegisterComponent implements OnInit {
               err => console.log(err)
           )
   }
-
 
 
 }

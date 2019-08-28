@@ -4,20 +4,20 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-tickets',
-  templateUrl: './tickets.component.html',
-  styleUrls: ['./tickets.component.css']
+  selector: 'app-my-tickets',
+  templateUrl: './my-tickets.component.html',
+  styleUrls: ['./my-tickets.component.css']
 })
-export class TicketsComponent implements OnInit {
+export class MyTicketsComponent implements OnInit {
+  myTickets = [];
 
-  tickets = [];
   constructor(private _auth: AuthService,
               private _router: Router) { }
 
   ngOnInit() {
-      this._auth.allTickets()
+      this._auth.myTickets()
           .subscribe(
-              res => this.tickets =res,
+              res => this.myTickets =res,
               err => {
                   if (err instanceof HttpErrorResponse) {
                       if (err.status === 401 || err.status === 403 ) {
@@ -27,6 +27,5 @@ export class TicketsComponent implements OnInit {
               }
           );
   }
-
 
 }

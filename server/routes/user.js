@@ -22,9 +22,9 @@ router.get('/:id', authentication.all, user.user_detail);//all
 router.get('/', authentication.all, user.user_list);//all
 
 // GET Tickets of User
-router.get('/:empId/projects/', authentication.all, ticket.getUserTickets);//
+router.get('/:id/tickets', authentication.all, ticket.getUserTickets);//
 
 // GET Ticket of User
-router.get('/:empId/projects/:id', authentication.all, ticket.ticket_detail);//all
+//router.get('/:userId/tickets/:id', authentication.all, ticket.ticket_detail);//all
 
 module.exports = router;
