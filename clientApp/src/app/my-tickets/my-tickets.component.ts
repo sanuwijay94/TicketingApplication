@@ -28,4 +28,9 @@ export class MyTicketsComponent implements OnInit {
           );
   }
 
+    viewTicket(id){
+        console.log(id);
+        this._router.navigate(['/ticketView'],{ queryParams: { selectedTicket: id } } );
+    }
+
 }

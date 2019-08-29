@@ -10,7 +10,7 @@
                 <p class="card-text">Submitted by: {{ticket.submitter.username}}</p>
                 <p class="card-text">Requester Phone: {{ticket.requester}}</p>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#updateModal">Update</button>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#updateModal"> Edit </button>
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#deleteModal">Delete</button>
                 </div>
             </div>
@@ -26,7 +26,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Update Ticket</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Ticket</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -53,7 +53,7 @@
                         <label class="input-group-text" for="status">Status</label>
                     </div>
                     <select class="custom-select" id="status" [(ngModel)]="ticket.ticket_state">
-                        <option  value="Open" selected>Open</option>
+                        <option  value="Open">Open</option>
                         <option  value="Progressing">Progressing</option>
                         <option  value="Done">Done</option>
                         <option  value="Closed">Closed</option>
@@ -62,7 +62,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button (click)="updateTicket(ticket)" type="button" class="btn btn-info">Save changes</button>
+                <button (click)="updateTicket(ticket)" type="button" class="btn btn-info" data-dismiss="modal">Save changes</button>
             </div>
         </div>
     </div>
@@ -82,12 +82,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button (click)="deleteTicket(ticket._id)" type="button" class="btn btn-primary" data-dismiss="modal"data-toggle="alert" data-target="#deleteAlert">Yes, Delete</button>
+                <button (click)="deleteTicket(ticket._id)" type="button" class="btn btn-primary" data-dismiss="modal">Yes, Delete</button>
             </div>
         </div>
     </div>
-</div>
-
-<div class="alert alert-warning" role="alert" *ngIf="delete==true" id="deleteAlert" >
-    This is a warning alert—check it out!
 </div>

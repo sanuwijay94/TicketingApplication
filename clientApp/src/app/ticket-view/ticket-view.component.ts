@@ -40,16 +40,12 @@ export class TicketViewComponent implements OnInit {
           .subscribe(
                   res => {
                       console.log(res);
-                      this.reload(ticket);
+                      this.ngOnInit();
                   },
                   err => console.log(err)
               );
 
   }
-    reload(ticket){
-        console.log('aaaaaaaaaa')
-        this._router.navigate(['/ticketView'],{ queryParams: { selectedTicket: ticket._id } } );
-    }
 
 
   deleteTicket(id){
