@@ -11,17 +11,33 @@ import {Router} from '@angular/router';
 export class TicketsComponent implements OnInit {
 
   tickets = [];
+  withClosedTickets = [];
   users = [];
   createdTicket = {};
+  loggedInUser ={};
   states = ['Open', 'Progressing', 'Done', 'Close'];
   constructor(private _auth: AuthService,
               private _router: Router) { }
 
   ngOnInit() {
+      this.loggedInUser =  localStorage.getItem('auth-user').substring(42,47);
+      console.log(this.loggedInUser);
       this._auth.allTickets()
           .subscribe(
               res => {
-                  this.tickets =res;
+                  if(this.loggedInUser=="Agent"){
+                      this.withClosedTickets =res;
+                      for(let i=0;i<this.withClosedTickets.length ;i++){
+                          if(this.withClosedTickets[i].ticket_state != "Closed"){
+                              this.tickets.push(this.withClosedTickets[i]);
+                          }
+                      }
+                  }
+                  else {
+                      this.tickets = res;
+                  }
+
+                  console.log(this.tickets);
                   this._auth.allUsers()
                       .subscribe(
                           res => this.users =res,
