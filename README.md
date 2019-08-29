@@ -9,25 +9,29 @@
   JSON Web Tokens (Authentication)
 
 2. Configure the API
-  The API can be configured through the default.json file in the config folder.
+  	The API can be configured through the default.json file in the config folder.
 
 3. How to run and install
-  Before running the API for the first time install the node modules and set up the database.
+  	Before running the API for the first time install the node modules and set up the database.
 
 4. To install the node modules
-  npm install
+  			
+			npm install
 
 5. To set up the database and populate database with dummy data
-  Set up MongoDB
-  run the populateDB.js script in the TicketingApplication/server with the code below
-    node populateDB mongodb://127.0.0.1:27017/ticketingApplication
+  	Set up MongoDB
+  	run the populateDB.js script in the TicketingApplication/server with the code below
+    		
+			node populateDB mongodb://127.0.0.1:27017/ticketingApplication
 
 6. To Start the Server
-  npm start
+  			
+			npm start
   To stop the server ctrl+C
 
 7. To Start the Client
-  ng serve --watch
+  			
+			ng serve --watch
   To stop the client ctrl+C
 
 8. How to use the routes for API
