@@ -2,11 +2,11 @@
 
 
 1. Technologies used
-  1.	Express (Framework)
-  2.	MongoDB(Database)
-  3.	Angular 6 (Client Application)
-  4.	Node.js(Server)
-  5.	JSON Web Tokens (Authentication)
+  Express (Framework)
+  MongoDB(Database)
+  Angular 6 (Client Application)
+  Node.js(Server)
+  JSON Web Tokens (Authentication)
 
 2. Configure the API
   The API can be configured through the default.json file in the config folder.
