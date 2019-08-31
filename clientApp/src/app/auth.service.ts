@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,8 @@ export class AuthService {
     private _usersUrl = 'http://127.0.0.1:3000/user/';
     private _myTicketsUrl;
     private userId: String;
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private _router: Router) {
     }
     setUrl() {
         this.userId =  localStorage.getItem('auth-user').substring(8,32);
@@ -54,8 +56,14 @@ export class AuthService {
     deleteTicket(id){
         return this.http.delete<any>('http://127.0.0.1:3000/ticket/'+id+'/delete');
     }
+
     LoggedIn() {
         return !!localStorage.getItem('token');
+    }
+
+    logoutUser(){
+        localStorage.removeItem('token');
+        this._router.navigate(['/login']);
     }
 
     getToken() {
