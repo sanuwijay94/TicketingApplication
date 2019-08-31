@@ -11,11 +11,16 @@ import {$} from "protractor";
 export class TicketViewComponent implements OnInit {
     ticket ={};
     prevTicket = {};
+    loggedInUser = {};
+    states = [];
+
   constructor(private route: ActivatedRoute,
               private _auth: AuthService,
               private _router: Router) { }
 
   ngOnInit() {
+      this.states = ['Open', 'Progressing', 'Done', 'Closed'];
+      this.loggedInUser =  localStorage.getItem('auth-user').substring(42,47);
       this.route
           .queryParams
           .subscribe(params => {
@@ -23,7 +28,11 @@ export class TicketViewComponent implements OnInit {
                   .subscribe(
                       res => {
                           console.log(params['selectedTicket']);
-                          //this.ticket = this.prevTicket;
+                          this.ticket = res;
+                          if(this.loggedInUser=="Agent"){
+                              this.states = ['Open', 'Progressing', 'Done'];
+                          }
+                          console.log(params['selectedTicket']);
                           this.ticket = res
                       },
                       err => console.log(err)
@@ -44,7 +53,6 @@ export class TicketViewComponent implements OnInit {
                   },
                   err => console.log(err)
               );
-
   }
 
 

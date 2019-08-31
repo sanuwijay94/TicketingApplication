@@ -50,13 +50,10 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="status">Status</label>
+                        <label class="input-group-text" for="status1">Status</label>
                     </div>
-                    <select class="custom-select" id="status" [(ngModel)]="ticket.ticket_state">
-                        <option  value="Open">Open</option>
-                        <option  value="Progressing">Progressing</option>
-                        <option  value="Done">Done</option>
-                        <option  value="Closed">Closed</option>
+                    <select [(ngModel)]="ticket.ticket_state" class="custom-select" id="status1" >
+                        <option *ngFor="let state of states" [value]="state">{{state}}</option>
                     </select>
                 </div>
             </div>

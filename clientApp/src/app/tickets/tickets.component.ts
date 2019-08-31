@@ -13,19 +13,21 @@ export class TicketsComponent implements OnInit {
   tickets = [];
   withClosedTickets = [];
   users = [];
-  createdTicket = {};
+  createdTicket = {ticket_state: 'Open'};
   loggedInUser ={};
-  states = ['Open', 'Progressing', 'Done', 'Close'];
+  states = [];
   constructor(private _auth: AuthService,
               private _router: Router) { }
 
   ngOnInit() {
+      this.states = ['Open', 'Progressing', 'Done', 'Closed'];
       this.loggedInUser =  localStorage.getItem('auth-user').substring(42,47);
       console.log(this.loggedInUser);
       this._auth.allTickets()
           .subscribe(
               res => {
                   if(this.loggedInUser=="Agent"){
+                      this.states = ['Open', 'Progressing', 'Done'];
                       this.withClosedTickets =res;
                       for(let i=0;i<this.withClosedTickets.length ;i++){
                           if(this.withClosedTickets[i].ticket_state != "Closed"){
