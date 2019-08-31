@@ -8,7 +8,7 @@
   Node.js(Server) &
   JSON Web Tokens (Authentication)
 
-2. The API can be configured through the default.json file in the config folder.
+2. The API can be configured through the package.json file in the config folder.
 
 3. Before running the API for the first time install the node modules and set up the database.
 
