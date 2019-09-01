@@ -16,6 +16,11 @@ export class TicketsComponent implements OnInit {
   createdTicket = {ticket_state: 'Open'};
   loggedInUser ={};
   states = [];
+  validateMessage ={
+      error:''
+  };
+  datadissmiss;
+
   constructor(private _auth: AuthService,
               private _router: Router) { }
 
@@ -74,7 +79,13 @@ export class TicketsComponent implements OnInit {
           .subscribe(
               res => {
                   console.log(res);
-                  this.ngOnInit();
+                  if(res.message == "Created Successfully"){
+                      this.validateMessage.error = res.message;
+                      this.ngOnInit();
+                  }
+                  else{
+                      this.validateMessage.error = res[0].message;
+                  }
               },
               err => console.log(err)
           )

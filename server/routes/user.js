@@ -7,7 +7,7 @@ const ticket = require('../controllers/ticketController');
 /// User ROUTES ///
 
 // POST request for creating User.
-router.post('/create', authentication.all, user.user_create_post);//all
+router.post('/create', /*authentication.all,*/ user.user_create_post);//all
 
 // DELETE request to delete User.
 router.delete('/:id/delete', authentication.onlySupervisor, user.user_delete_post);//Supervisor

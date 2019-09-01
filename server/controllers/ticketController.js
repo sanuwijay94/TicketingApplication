@@ -59,7 +59,11 @@ exports.ticket_create_post = function(req, res) {
         requester: 'required'
     };
 
-    validate(data, rules)
+    const messages = {
+        required: (field) => `${field} is required`
+    };
+
+    validate(data, rules, messages)
         .then(() => {
             let ticket = new Ticket ({
                 subject: req.body.subject,
@@ -133,7 +137,11 @@ exports.ticket_update_post = function(req, res) {
         requester: 'required'
     };
 
-    validate(data, rules)
+    const messages = {
+        required: (field) => `${field} is required`
+    };
+
+    validate(data, rules, messages)
         .then(() => {
             Ticket.findByIdAndUpdate(req.params.id, req.body, function (err, result) {
                 if (err||!result) {

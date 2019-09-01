@@ -6,7 +6,7 @@ foundUser=function(req, res, user){
     if (user.password !== req.body.password) {
         res.status(401).json({
             success: false,
-            message: 'Authentication failed. Wrong password.'
+            message: ' Invalid password. '
         });
     }
     // Correct Password
@@ -52,7 +52,7 @@ exports.login = function(req, res) {
         if (err || !user) {
             return res.status(401).json({
                 success: false,
-                error: 'User not found'
+                message: 'Invalid Username'
             });
         }
         else {

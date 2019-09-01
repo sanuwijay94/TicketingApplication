@@ -13,6 +13,9 @@ export class TicketViewComponent implements OnInit {
     prevTicket = {};
     loggedInUser = {};
     states = [];
+    validateMessage ={
+        error:''
+    };
 
   constructor(private route: ActivatedRoute,
               private _auth: AuthService,
@@ -49,7 +52,13 @@ export class TicketViewComponent implements OnInit {
           .subscribe(
                   res => {
                       console.log(res);
-                      this.ngOnInit();
+                      if(res.message == "Successfully Updated"){
+                          this.validateMessage.error = res.message;
+                          this.ngOnInit();
+                      }
+                      else{
+                          this.validateMessage.error = res[0].message;
+                      }
                   },
                   err => console.log(err)
               );

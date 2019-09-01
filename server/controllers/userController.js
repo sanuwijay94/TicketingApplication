@@ -58,7 +58,14 @@ exports.user_create_post = function(req, res) {
         password: 'required|min:4|max:40'
     };
 
-    validate(data, rules)
+    const messages = {
+        required: (field) => `${field} is required`,
+        'username.alpha': 'Username contains unallowed characters',
+        'email.email': 'Please enter a valid email address',
+        'password.min': 'Password is too short',
+    };
+
+    validate(data, rules, messages)
         .then(() => {
             const user = new User({
                 first_name: req.body.first_name,
@@ -142,7 +149,14 @@ exports.user_update_post = function(req, res) {
         password: 'required|min:4|max:40'
     };
 
-    validate(data, rules)
+    const messages = {
+        required: (field) => `${field} is required`,
+        'username.alpha': 'Username contains unallowed characters',
+        'email.email': 'Please enter a valid email address',
+        'password.min': 'Password is too short',
+    };
+
+    validate(data, rules, messages)
         .then(() => {
             User.findByIdAndUpdate(req.params.id, req.body, function (err, result) {
                 if (err||!result) {

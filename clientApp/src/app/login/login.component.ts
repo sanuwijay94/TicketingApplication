@@ -10,6 +10,9 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
     loginUserData = {};
+    validateMessage ={
+        error:''
+    };
 
     constructor(private _auth: AuthService,
                 private _router: Router) {
@@ -27,7 +30,10 @@ export class LoginComponent implements OnInit {
                     localStorage.setItem('auth-user', JSON.stringify(res.user));
                     this._router.navigate(['/tickets']);
                 },
-                err => console.log(err)
+                err => {
+                    console.log(err);
+                    this.validateMessage.error = err.error.message;
+                }
             );
     }
 }
