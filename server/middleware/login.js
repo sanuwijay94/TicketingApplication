@@ -13,28 +13,13 @@ foundUser=function(req, res, user){
     else {
         const tokenDetails = {
             username: user.username,
-            name: user.first_name
+            type: user.type
         };
         // Create token
         let token = jwt.sign(tokenDetails, 'secret', {
             expiresIn: '50m'
         });
-        //add user type for the token
-        switch(user.type) {
-            case 'Supervisor':
-                token = token+'S';
-                console.log('Supervisor');
-                break;
-            case 'Agent':
-                token = token+'A';
-                console.log('Agent');
-                break;
-            default:
-                console.log('no type');
-                return res.json({
-                    error: 'User type not found',
-                });
-        }
+
         //console.log(result);
         return res.json({
             success: true,
