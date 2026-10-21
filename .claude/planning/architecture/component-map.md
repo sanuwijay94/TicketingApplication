@@ -36,7 +36,7 @@ provider, or CI pipeline. Adding any of these is **Ask First** ([boundaries.md](
 | `/tickets` | `tickets/` — list, and the create-ticket form | `AuthGuard` | `allTickets`, `allUsers`, `createTicket` |
 | `/myTickets` | `my-tickets/` | `AuthGuard` | `myTickets` |
 | `/ticketView?selectedTicket=<id>` | `ticket-view/` — view, edit, delete | `AuthGuard` | `ticketView`, `updateTicket`, `deleteTicket` |
-| (nav bar) | `app.component` | — | `LoggedIn`, `logoutUser` |
+| (nav bar) | `app.component` — also reads the router state: the settled route's `data.topBar` picks the clean bar on `/login` and `/register`; elsewhere the bar follows `LoggedIn()` | — | `LoggedIn`, `logoutUser` |
 
 `AuthGuard` only checks that a `token` key **exists** — not that it is valid or unexpired. When the
 token is rejected, only `tickets/` and `my-tickets/` redirect to `/login` (on 401/403); `ticket-view/`

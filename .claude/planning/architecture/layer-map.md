@@ -52,10 +52,12 @@ Every edge below exists today:
 | Layer | Files | Owns | May import |
 |---|---|---|---|
 | **C0 Bootstrap** | `main.ts`, `app.module.ts` | Declarations; provides `AuthService`, `AuthGuard`, `TokenInterceptorService` (`HTTP_INTERCEPTORS`) | C1–C4 |
-| **C1 Routing** | `app-routing.module.ts`, `auth.guard.ts` | URL → screen; `AuthGuard` = a `token` exists in `localStorage` | C2, C3 |
-| **C2 Screens** | `login/`, `register/`, `tickets/`, `my-tickets/`, `ticket-view/`, `app.component` (nav + logout) | Template, view state, role-based display rules | C3, `Router`, `ActivatedRoute` |
+| **C1 Routing** | `app-routing.module.ts`, `auth.guard.ts` | URL → screen; `AuthGuard` = a `token` exists in `localStorage`. **Top-bar convention:** a route that wants a clean bar carries route `data` `topBar` — `data: { topBar: 'login' }` on `login`, `data: { topBar: 'register' }` on `register`; no other route has the key. Any guard that refuses a first navigation must redirect, as `AuthGuard` does, or the bar stays `pending` | C2, C3 |
+| **C2 Screens** | `login/`, `register/`, `tickets/`, `my-tickets/`, `ticket-view/`, `app.component` (nav + logout) | Template, view state, role-based display rules. `app.component` chooses the top bar from the settled route (`data.topBar` of the deepest route, read on `NavigationEnd` and `NavigationError`) plus `AuthService.LoggedIn()`, re-read on every check and never stored. It stores only the screen mode: `pending` → `login` / `register` / `other`. Anything but the exact strings `'login'` and `'register'` is `other`, the normal bar | C3, `Router`, `ActivatedRoute` |
 | **C3 API service** | `auth.service.ts` (`AuthService`) | **Every** HTTP call and URL; `token` / `auth-user` accessors; logout | `HttpClient`, `Router`, `localStorage` |
 | **C4 Interceptor** | `token-interceptor.service.ts` | Adds `x-access-token` to each request, read per request | C3 (`getToken`) |
+
+The literals `'login'` and `'register'` are written in both C1 (route `data`) and C2 (`app.component.ts`) on purpose: route `data` is untyped, so sharing a type would not catch a misspelling. A misspelt or missing value fails safe to the normal bar. A new pre-login route that should get a clean bar needs the `data` key **and** a matching mode in `app.component` ([ADR-001](../adr/ADR-001-login-page-nav-bar.md)).
 
 ### Allowed dependencies (client)
 
