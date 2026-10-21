@@ -152,4 +152,12 @@ By the user, because I have no browser (stated plainly in the report, not claime
 
 ## Departures from plan
 
-None yet.
+- **`MVP-SCOPE.md`, two extra sentences reworded.** In *Current slice*, "No new feature work is
+  planned yet" and "The next slice starts when its first PRD or issue is written" became false once
+  the PRD-001 row existed, so they were reworded. The plan listed only table rows for that file.
+- **`MVP-SCOPE.md`, one server-defect row instead of two.** The plan listed the server defect (a
+  non-JWT `x-access-token` gives 500) separately from the PRD §5 Deferred rows, but PRD §5's second
+  Deferred row is that same defect. One row was written, so there is no duplicate.
+- **`MVP-SCOPE.md`, the in-scope row's *Built in* cell** cites the code commit `e06948b`, recorded in
+  the same commit as this note. Its *Status* stays "built, manual browser walk pending" until the
+  user confirms the walk.
