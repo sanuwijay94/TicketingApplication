@@ -5,6 +5,7 @@
 //   cd server && node test/authentication.test.js
 // It prints one line per case and exits with code 1 if any case fails.
 const assert = require('assert');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const authentication = require('../authentication');
 
@@ -24,6 +25,13 @@ function changeMiddleCharacter(text) {
 
 function base64Url(text) {
     return Buffer.from(text).toString('base64').replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_');
+}
+
+// A token signed with the app's secret over payload text that jwt.sign would refuse to produce
+// (jwt.sign only accepts objects and strings, never the JSON literal null).
+function signRaw(header, payloadText) {
+    const body = base64Url(JSON.stringify(header)) + '.' + base64Url(payloadText);
+    return body + '.' + base64Url(crypto.createHmac('sha256', SECRET).update(body).digest());
 }
 
 // --- helper: run the guard against a fake request ------------------------------------------
@@ -116,6 +124,34 @@ test('rejects a token whose payload is not JSON with 403, not a server error', f
 test('rejects a token with its signature part removed with 403, not a server error', function () {
     const parts = tokenFor('Agent').split('.');
     assertRejected(callGuard(false, parts[0] + '.' + parts[1]), 'Unauthorised User');
+});
+
+// jwt.verify normally reports every failure through its callback. But after the signature check it
+// reads the payload's `nbf` without any protection, so a token that IS correctly signed and whose
+// payload is the JSON literal null makes it throw instead. The guard must still answer 403.
+
+test('rejects a correctly signed token whose payload is JSON null with 403, not a server error', function () {
+    const nullPayload = signRaw({ alg: 'HS256', typ: 'JWT' }, 'null');
+    assertRejected(callGuard(false, nullPayload), 'Unauthorised User');
+    assertRejected(callGuard(true, nullPayload), 'Unauthorised User');
+});
+
+// These pin behaviour that restructuring the guard must not disturb.
+
+test('rejects the empty-string token the client sends when logged out with 403 "Unauthorised"', function () {
+    assertRejected(callGuard(false, ''), 'Unauthorised');
+});
+
+test('rejects an unsigned token (alg none, empty signature) claiming to be a Supervisor with 403', function () {
+    const header = base64Url(JSON.stringify({ alg: 'none', typ: 'JWT' }));
+    const payload = base64Url(JSON.stringify({ username: 'someone', type: 'Supervisor' }));
+    assertRejected(callGuard(true, header + '.' + payload + '.'), 'Unauthorised User');
+});
+
+test('accepts a valid Supervisor token on a route open to every role', function () {
+    const outcome = callGuard(false, tokenFor('Supervisor'));
+    assert.strictEqual(outcome.nextCalled, true);
+    assert.strictEqual(outcome.decoded.type, 'Supervisor');
 });
 
 // --- runner --------------------------------------------------------------------------------
