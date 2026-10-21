@@ -8,12 +8,11 @@ exports.authorization = function(isSupervisor) {
         console.log("isSupervisor: "+ isSupervisor);
         // Check if token has been sent.
         if (token) {
-            //Get user type from token
-            const decoded = jwt.decode(token, {complete: true});
-            const type = decoded.payload.type;
-            // Verify token
+            // Verify token. The role is read from the verified payload only: jwt.decode returns null
+            // (or throws) for anything that is not a well-formed JWT, which used to crash this guard
+            // and turn a bad token into a 500 instead of a 403.
             jwt.verify(token, 'secret', (err, decoded) => {
-                if (err||(isSupervisor && type!=='Supervisor')) {
+                if (err||(isSupervisor && decoded.type!=='Supervisor')) {
                     // Invalid token
                     return res.status(403).json({
                         success: false,
