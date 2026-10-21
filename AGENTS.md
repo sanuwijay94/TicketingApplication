@@ -21,7 +21,7 @@ before touching anything.
 - **Frontend**: Angular 8.2 + RxJS 6.4, Bootstrap 4.1 + jQuery/Popper from CDN (`src/index.html`)
 - **Primary database**: MongoDB 4.4 via Mongoose 5.6.11 (driver 3.2 — don't move to a newer MongoDB server without upgrading Mongoose)
 - **Cache / messaging / external integrations**: none
-- **Testing**: Karma + Jasmine (client, colocated `*.spec.ts`); Protractor e2e scaffold; no server tests
+- **Testing**: Karma + Jasmine (client, colocated `*.spec.ts`); Protractor e2e scaffold; server: one dependency-free script for the token guard (`server/test/authentication.test.js`), no runner
 - **Linting / typechecking**: TSLint wired in `angular.json` but no `tslint.json`; TypeScript compile via `ng build`
 
 ## Development Environment
@@ -31,6 +31,7 @@ before touching anything.
 cd clientApp && npm ci                                                      # install client deps (server deps are committed)
 cd server && node populateDB mongodb://127.0.0.1:27017/ticketingApplication # seed once
 cd server && node bin/www                                                   # API on :3000
+cd server && npm test                                                       # runs node test/authentication.test.js — plain Node, exit 1 on failure
 cd clientApp && npm start                                                   # SPA on :4200
 cd clientApp && npx ng test --watch=false --browsers=ChromeHeadless         # unit suite — baseline 11/11 failing
 cd clientApp && npm run build                                               # build (also the type-check)
@@ -57,6 +58,7 @@ server/
 ├── middleware/             # login.js (credential check + JWT issue), user.js
 ├── models/                 # user.js, ticket.js — Mongoose schemas (the de facto API contract)
 ├── populateDB.js           # seed script (2 users, 2 tickets)
+├── test/                   # authentication.test.js — dependency-free, run with node
 └── node_modules/           # COMMITTED — protected path
 
 clientApp/src/app/

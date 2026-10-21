@@ -50,7 +50,7 @@ There are no GitHub issues, PRDs, or specs for the baseline features; they preda
 | Role and user id read from fixed string offsets of `localStorage['auth-user']` | Known as-built gap ([layer-map.md](.claude/planning/architecture/layer-map.md) § Client) | When a hardening slice is planned |
 | Hard-coded API base URL and MongoDB URL; no environment config | Local development only | Before running anywhere but localhost |
 | Client unit specs (11 of 11 failing CLI scaffolds) and lint rules (no `tslint.json`) | Never configured | When test and lint gates are adopted |
-| Server tests | None exist | When test gates are adopted |
+| Server tests beyond the token guard | One dependency-free script covers `authentication.js` only (`server/test/authentication.test.js`). There is no runner and nothing else is covered | When test gates are adopted |
 | Register screen throws `TypeError` (`register.component.ts:32`) after a *successful* registration; the redirect to login still happens | Known as-built defect | When a hardening slice is planned |
 | Unknown API routes return 500 *"Failed to lookup view"* instead of 404 (no `server/views/error.pug`) | Known as-built defect | When a hardening slice is planned |
 | `middleware/user.js` calls an undefined `json(err)` on a database error (would throw `ReferenceError`) | Known as-built defect | When a hardening slice is planned |

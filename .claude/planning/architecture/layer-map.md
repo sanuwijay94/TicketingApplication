@@ -89,7 +89,7 @@ A rule that must hold against a direct API call belongs in S4 (or S6), not only 
 | Dependency | Sole touchpoint(s) | Notes |
 |---|---|---|
 | MongoDB | `app.js` (`mongoose.connect`), `models/*` | URL hard-coded: `mongodb://127.0.0.1:27017/ticketingApplication` |
-| JWT | `middleware/login.js` (sign, 50 min), `authentication.js` (verify) | Secret is the literal `'secret'` in both files |
+| JWT | `middleware/login.js` (sign, 50 min), `authentication.js` (verify) | Secret is the literal `'secret'` in both files, and again in `server/test/authentication.test.js` |
 | Request validation | `controllers/*` via `indicative` | |
 | Browser storage | `localStorage` keys `token`, `auth-user` | Written by `login.component.ts`; read by `AuthService` and the three screens above |
 | API base URL | `auth.service.ts` | `http://127.0.0.1:3000` hard-coded; `environments/*.ts` is not used for it |

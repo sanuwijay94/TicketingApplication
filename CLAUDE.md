@@ -33,7 +33,7 @@ Resolve Ticketing Application context in this order. Stop when answerable — do
 - **Backend** `server/`: Node.js + Express 4, plain JavaScript (CommonJS), JWT auth (`x-access-token` header)
 - **Frontend** `clientApp/`: Angular 8, TypeScript 3.5, Bootstrap 4 (CDN), Angular HttpClient services
 - **Database**: MongoDB 4.4 via Mongoose 5.6 — db `ticketingApplication` on `127.0.0.1:27017`
-- **Testing**: Karma + Jasmine (client only); Protractor e2e scaffold; **no server tests**
+- **Testing**: Karma + Jasmine (client only); Protractor e2e scaffold; server: one dependency-free script (see Commands), no runner
 - **Linting**: TSLint configured in `angular.json`, but **no `tslint.json`** — see Commands
 
 ## Commands
@@ -45,6 +45,7 @@ Node **10.24.1** (nvm-windows) is required: Angular 8 / webpack 4 fails on Node 
 - Client test: `cd clientApp && npx ng test --watch=false --browsers=ChromeHeadless` — **baseline today: 11 of 11 FAILED** (CLI scaffold specs never configured: missing `FormsModule` → `Can't bind to 'ngModel'`, missing providers → `NullInjectorError`). A change must not add failures; fixing the specs is its own task. **Never skip or delete a failing test.**
 - Client lint: `cd clientApp && npx ng lint` — prints `All files pass linting` but **checks nothing** (no rules without `tslint.json`). Not a gate.
 - Server run: `cd server && node bin/www` — listens on :3000, silent unless `DEBUG=project:*`. There is **no** `npm start` script (README is wrong).
+- Server test: `cd server && npm test` — runs `node test/authentication.test.js` (token guard only); **baseline: every case `ok`, exit 0**. A change to `authentication.js` must keep it green.
 - Seed DB (once): `cd server && node populateDB mongodb://127.0.0.1:27017/ticketingApplication` — prints `All done`; re-running fails on the unique `username` index.
 - API smoke: `POST /login` → `token`; `GET /ticket/` with header `x-access-token: <token>` → 200.
 - Debug both: VS Code → Run and Debug → **Full Stack: Server + Client** (`.vscode/launch.json`, local, pins Node 10).

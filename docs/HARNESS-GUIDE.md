@@ -66,7 +66,7 @@ The harness was written for another stack. These are the places it will stop you
 | Skills mention Zod, MSW, `openapi:emit`, `src/domain`, `docker compose`, `npm dev:*` | Left over from the harness's source project | Ignore them; use [layer-map.md](../.claude/planning/architecture/layer-map.md) and the commands in CLAUDE.md |
 | `/requirement-intake` | It runs `npm requirements:convert` and `npm requirements:check`, which don't exist. You only need it if a formal requirement document (`.docx`) arrives — none has | Run the underlying `.mjs` scripts directly under **Node ≥ 14** (`"$NVM_HOME/v24.21.0/node.exe" scripts/convert-requirements.mjs`; the drift check is `scripts/ci/check-requirement-drift.mjs`) |
 | `/design` stops early | It chains `/prd` → `/adr` → `/implement`, but `/prd` and `/adr` are user-only | Type each command yourself, one at a time. This guide does |
-| `/fix` Phase 2 needs a failing test | The client specs need a configured `TestBed`; `server/` has no test runner at all | See § 8 — and adding a runner is a new dependency, which is **Ask First** |
+| `/fix` Phase 2 needs a failing test | The client specs need a configured `TestBed`; `server/` has no test runner (one plain-Node script covers the token guard only) | See § 8 — and adding a runner is a new dependency, which is **Ask First** |
 
 ### 1.3 Step 0 — make the gate real (the team's first task)
 

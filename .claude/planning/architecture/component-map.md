@@ -99,7 +99,7 @@ by `token-interceptor.service.ts` (empty string when logged out). Tokens last **
 
 | Setting | Where | Value |
 |---|---|---|
-| JWT signing secret | `authentication.js` and `middleware/login.js` | the literal `'secret'` (twice — change both or none) |
+| JWT signing secret | `authentication.js` and `middleware/login.js` | the literal `'secret'` (three times: both files and `server/test/authentication.test.js` — change all or none) |
 | Token lifetime | `middleware/login.js` | `50m` |
 | API port | `bin/www` | `$PORT`, else 3000 |
 | MongoDB URL, API base URL | `app.js`, `auth.service.ts` | hard-coded; `clientApp/src/environments/*.ts` exist but hold no URLs |
