@@ -31,7 +31,7 @@ before touching anything.
 cd clientApp && npm ci                                                      # install client deps (server deps are committed)
 cd server && node populateDB mongodb://127.0.0.1:27017/ticketingApplication # seed once
 cd server && node bin/www                                                   # API on :3000
-cd server && node test/authentication.test.js                               # token-guard tests — 11 cases, plain Node, exit 1 on failure
+cd server && node test/authentication.test.js                               # token-guard tests — plain Node, exit 1 on failure
 cd clientApp && npm start                                                   # SPA on :4200
 cd clientApp && npx ng test --watch=false --browsers=ChromeHeadless         # unit suite — baseline 11/11 failing
 cd clientApp && npm run build                                               # build (also the type-check)

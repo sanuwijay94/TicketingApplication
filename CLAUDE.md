@@ -33,7 +33,7 @@ Resolve Ticketing Application context in this order. Stop when answerable — do
 - **Backend** `server/`: Node.js + Express 4, plain JavaScript (CommonJS), JWT auth (`x-access-token` header)
 - **Frontend** `clientApp/`: Angular 8, TypeScript 3.5, Bootstrap 4 (CDN), Angular HttpClient services
 - **Database**: MongoDB 4.4 via Mongoose 5.6 — db `ticketingApplication` on `127.0.0.1:27017`
-- **Testing**: Karma + Jasmine (client only); Protractor e2e scaffold; server: one dependency-free script, `cd server && node test/authentication.test.js` (11 cases, no runner)
+- **Testing**: Karma + Jasmine (client only); Protractor e2e scaffold; server: one dependency-free script, `cd server && node test/authentication.test.js` (no runner; exit 1 on failure)
 - **Linting**: TSLint configured in `angular.json`, but **no `tslint.json`** — see Commands
 
 ## Commands
