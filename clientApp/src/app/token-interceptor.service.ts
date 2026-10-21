@@ -5,16 +5,16 @@ import {Observable} from 'rxjs';
 
 @Injectable()
 export class TokenInterceptorService implements HttpInterceptor {
-    token: string;
 
     constructor(private auth: AuthService) {
-        this.token = this.auth.getToken();
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // Read the token per request; it changes on login/logout after this service is created.
+        const token = this.auth.getToken();
         req = req.clone({
             setHeaders: {
-                'x-access-token': this.token === null ? '' : this.token
+                'x-access-token': token === null ? '' : token
             }
         });
         return next.handle(req);
