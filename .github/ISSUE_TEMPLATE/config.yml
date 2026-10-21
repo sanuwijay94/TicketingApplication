@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Design & decision records (PRD / RFC / ADR)
+    url: https://github.com/sanuwijay94/TicketingApplication/tree/tree/main/.claude/planning
+    about: Requirements and architecture decisions live in the repo, not in issues. Read these for the "why".

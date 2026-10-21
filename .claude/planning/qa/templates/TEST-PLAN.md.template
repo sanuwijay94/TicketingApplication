@@ -1,0 +1,98 @@
+---
+id: TP-NNN
+feature: <feature name>
+slug: <kebab-feature-slug>
+status: Draft            # Draft → Ready → Active → Certified <version> (living; re-certified each release)
+owner: QA
+prd: .claude/planning/prd/NNN-<slug>.md      # source of acceptance criteria
+rfc: .claude/planning/rfc/RFC-NNN-<slug>.md   # optional
+adr: [ADR-NNN]                                 # optional, relevant decisions
+milestone: Phase N                             # GitHub milestone this feature ships in
+last_run: null          # <version> of the last release this plan was executed against
+---
+
+# TP-NNN — <feature name> Test Plan
+
+> **Living document.** One plan per feature, edited in place as the feature
+> evolves, re-run every release. Per-release *results* are recorded in
+> `docs/qa/reports/<version>-test-run.md`, not here. Status is never "done" —
+> a shipped feature's plan stays `Active`.
+
+## 1. Scope
+
+**In scope**
+- <what this plan covers — screens, endpoints, flows>
+
+**Out of scope** (cross-check `MVP-SCOPE.md` — do not test deferred behaviour)
+- <intentionally deferred / owned elsewhere>
+
+## 2. Risk assessment
+
+| Area | Risk | Why | Test emphasis |
+|---|---|---|---|
+| <area> | H/M/L | <impact if it breaks> | <manual / automated / both> |
+
+Highest-risk untested scenario today: <name it>.
+
+## 3. Test data & environment
+
+- **Personas** (permission model — ADR-037/038): <which personas exercise this feature; see `.claude/planning/qa/test-personas.md`>
+- **Seed data required**: <tickets/workflows/master-data this plan assumes>
+- **Environment**: QA/staging deployed build (per `QA-PROCESS.md §5` entry criteria)
+
+## 4. Acceptance criteria → test cases (traceability core)
+
+Every acceptance criterion from the PRD maps to ≥1 test case. **`Mode`** tags who owns
+each case's automation:
+- **`🔵 dev`** — covered by a **developer** test (unit / integration / contract). QA
+  references it for traceability but does **not** author it. **All API-level cases
+  (contract, negative, boundary, ETag, authz allow/deny) are `🔵 dev`** — QA never
+  writes api/integration tests (`testing.md`, `api-contracts.md`, ADR-053).
+- **`🤖 qa`** — a QA-authored **`test/qa/` browser** spec (a11y / console / visual /
+  journey / affordance-visibility). The **only** thing `/write-qa-cases` generates.
+- **`✋ manual`** — QA manual / human judgment.
+
+`Spec` links the test id or `manual`. `Result` rolls up into the release report.
+
+| AC | Test case | Mode | Type | Spec / id | Last result |
+|---|---|---|---|---|---|
+| AC-1 | <API / contract / ETag / authz case> | 🔵 dev | integration | `<feature>-lifecycle.integration.spec.ts` | — |
+| AC-1 | <visual / a11y / affordance case> | 🤖 qa | visual · a11y | `test/qa/…` | ⬜ not run |
+| AC-2 | <exploratory / UX-judgment case> | ✋ manual | manual | manual | ⬜ |
+
+Mode legend: `🔵 dev` = developer test (not QA-authored) · `🤖 qa` = QA `test/qa/` browser spec (input to `/write-qa-automation`) · `✋ manual` = QA manual.
+Result legend: ✅ pass · ❌ fail (→ `/bug`) · ⬜ not run · ⏭️ skipped (reason).
+
+## 5. Coverage gaps
+
+Scenarios known to be untested (from `qa-agent` gap analysis) and why:
+- <gap> — <reason / when it will be covered>
+
+## 6. Manual checklist (UI quality — `ui-quality.md`)
+
+For any UI feature, walk every state (force them; don't assume):
+- [ ] Loading / empty / error / success-toast states
+- [ ] Affordances visible without hover; no dead controls
+- [ ] Create & edit share one component (feature parity)
+- [ ] Round-trip fidelity (save → reload → re-edit unchanged)
+- [ ] Data refreshes after mutation (Angular HttpClient services cache tags)
+- [ ] Keyboard + focus + WCAG AA contrast
+- [ ] Verified in a browser (screenshots attached)
+
+## 7. Entry / exit for this feature
+
+**Entry** (ready for QA — `QA-PROCESS.md §5`): deployed to QA env · `/test` green ·
+merged Mongoose contract · acceptance criteria linked · known limitations stated.
+
+**Exit — feature certified (Definition of Done, `QA-PROCESS.md §5b`):** every AC case ✅ ·
+no open S1/S2 · automated cases in the `qa-suite`/e2e run · gaps accepted or ticketed ·
+verified on the deployed build. On certification: set `status: Certified <version>`, add
+`qa:verified` + a certification comment on the feature issue, and refresh the traceability index.
+
+## 8. Run history
+
+Results live in the release reports; this is just the index of runs.
+
+| Release | Report | Outcome |
+|---|---|---|
+| v0.x.0 | `docs/qa/reports/v0.x.0-test-run.md` | ✅ / ❌ (n bugs) |

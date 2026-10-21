@@ -1,0 +1,65 @@
+---
+id: PLAN-NNN                         # sequential; never reused
+title: <change, in one line>
+source: <ADR-NNN | RFC-NNN | issue #N | intent/NNN-<slug>.md>   # what this plan implements
+branch: <feature/N-slug>             # exact git branch name — plan-sync.sh matches on it
+approved_by: <engineer | tech lead for higher-risk changes>
+approved: YYYY-MM-DD
+status: living                       # living (until merged) | merged
+---
+
+# Plan: <title>
+
+> Written by `/implement` **after** the plan was approved and **before** the first code edit.
+> Living until the PR merges: if the implementation departs from this, update it in the same
+> commit. `/review` checks the diff against the *Files that change* section.
+
+## Source
+
+What this implements and where the design lives (`ADR-NNN` §…, `SPEC-NNN §R<n>`, issue `#N`).
+One paragraph; link, do not restate.
+
+## Files that change
+
+Exhaustive. A file edited that is not listed here is review-visible drift.
+
+| File | Change | Layer |
+|---|---|---|
+| `path/to/file` | new / modified / deleted — one line on what | domain / application / infrastructure / presentation / contract / test / docs |
+
+## Order of work
+
+1. …
+2. …
+
+Call out the step that is riskiest and why.
+
+## Not changing
+
+Scope boundary — what a reviewer might expect to see changed and will not, and why.
+
+## What could break
+
+Answer the interrogation question *"what could this change break?"* — the callers, tests and
+contracts in the blast radius (`/impact-check` output), and the behaviour a user would notice if
+one of them did. If the answer is "nothing", say why (leaf module, additive-only, feature-flagged).
+
+## Risks
+
+Known hazards (hub modules, shared schemas, migrations, rate limits, concurrency) and the
+mitigation for each. Name the **single most risky step** from *Order of work* and what makes it so.
+
+## Alternatives not chosen
+
+The options considered and rejected, one line each with the reason. A reviewer who would have
+chosen differently needs to see that the option was weighed, not missed.
+
+## Proof
+
+What demonstrates the change works — the specific tests that must pass, the screenshot or
+browser flow for UI, the contract diff. `/pr` pastes this evidence into the PR body.
+
+## Departures from plan
+
+Appended during implementation, one line each: what changed vs. the plan above and why.
+Empty means the plan was followed as written.

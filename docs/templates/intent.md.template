@@ -1,0 +1,38 @@
+---
+# Written by the originator (with /intent). Plain language — no engineering vocabulary required.
+id: INT-NNN                          # sequential; never reused
+title: <one line, in the originator's words>
+author: <name (team / role)>
+date: YYYY-MM-DD
+status: draft                        # draft | accepted (set by the merge) | closed
+source: <where this came from — conversation, ticket #, incident id, monitor run id>
+---
+
+# Intent: <title>
+
+## Problem
+
+What cannot be done today, or what goes wrong, and for whom. Describe the situation — not the
+solution. One or two short paragraphs; a concrete example beats an abstract statement.
+
+## Proposed outcome
+
+What "better" looks like from the point of view of the people affected. State the observable
+result, not how to build it.
+
+## Affected users and systems
+
+- **Users / roles:** who notices the problem today and who will notice the change
+- **Systems:** the products, screens, services, or integrations likely to be involved (name what
+  you know; "not sure" is an acceptable answer)
+
+## Constraints
+
+Anything that must stay true: policy, security, compliance, budget, timing, things that must not
+change. If none are known, say so explicitly.
+
+## Open questions
+
+Questions the originator could not answer and who might. The next stage (`/requirement-intake`
+or `/prd`) must answer or carry forward every item here. If this intent is `closed`, the reason
+goes here.

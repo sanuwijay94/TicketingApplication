@@ -1,0 +1,152 @@
+# CLAUDE.md
+
+> Claude reads **all** of this at the start of every session. Keep it **under a page**: what a new
+> joiner needs on day one — commands, the conventions that matter, and the things Claude keeps
+> getting wrong. Anything stale is context spent for nothing. Details live in the linked files.
+
+## Mandatory reading order (binding — follow before answering ANY codebase question)
+
+**First, classify the question.** *"What SHOULD it do"* (required behaviour, validation, rules) is
+a **specification** question → start at step 2 and stop there. *"How DOES it work"* (call chain,
+where a thing lives) is a **code** question → skip step 2 and start at step 3. Answering a
+specification question from the code tells you what was built, never what was required — that is
+how a confidently wrong answer gets produced.
+
+Resolve [PROJECT_NAME] context in this order. Stop when answerable — don't proceed further.
+
+1. **CLAUDE.md** — already loaded; check Permanent knowledge and Workflows sections first
+2. **`.claude/planning/spec/`** — the governing requirement spec (`SPEC-NNN`). **Mandatory for any specification question.**
+3. **`docs/feature-index.yaml`** — which files, aggregates, contracts, and ADRs own the feature being asked about
+4. **`docs/glossary.md`** — look up domain terms before assuming meaning
+5. **`.claude/planning/architecture/`** — how the mechanism works; layer map for legal dependencies
+6. **Targeted `rg`** — search by symbol, per [`.claude/rules/code-navigation.md`](.claude/rules/code-navigation.md)
+7. **Raw source files** — read only if steps 1–6 can't answer; read the minimum section (one method or constructor block, not the whole file)
+
+**Never read raw source when an index can answer.** Indexes first = fewer tokens, faster answers,
+and a citable trail. If an index turns out to be wrong, fix it before moving on — a stale index is
+worse than none.
+
+**Never cite a raw `.docx`/`.xlsx`/`.html` downstream** — cite `SPEC-NNN §R<n>`.
+See [requirement-sources.md](.claude/rules/requirement-sources.md).
+
+---
+
+Guidance for Claude Code in [PROJECT_NAME].
+
+**MVP scope binding.** See `MVP-SCOPE.md` before building. PRDs/RFCs = long-term vision; MVP-SCOPE = current slice.
+
+Project overview, tech stack, workflows: [AGENTS.md](./AGENTS.md).
+
+## Project
+
+**[PROJECT_NAME]** is [ONE_SENTENCE_DESCRIPTION].
+
+**Tech stack:**
+- **Backend runtime**: [RUNTIME_AND_LANGUAGE] (e.g. Node.js 24 + TypeScript strict mode)
+- **Backend framework**: [FRAMEWORK] (e.g. NestJS / Express / FastAPI / Spring Boot)
+- **Frontend**: [FRONTEND_STACK] (e.g. React + Vite + Angular HttpClient services / Vue 3 / None)
+- **Primary database**: [DATABASE] (e.g. MongoDB / PostgreSQL / MySQL / MongoDB)
+- **Cache**: [CACHE] (e.g. Redis / None)
+- **Messaging**: [MESSAGING] (e.g. RabbitMQ / Kafka / None)
+- **Testing**: [TEST_TOOLS] (e.g. Karma + Jasmine + Protractor / Karma + Jasmine + Supertest / pytest)
+- **Linting**: [LINT_TOOLS] (e.g. TSLint + tsc strict / Prettier + TSLint)
+
+## Commands
+
+<!-- One line each, with what healthy output looks like — so Claude can tell success from failure
+     without asking. These are the single targets the feedback loop runs (SDLC.md Phase 4). -->
+
+- Build: `[BUILD_COMMAND]` (e.g. `npm build`) — must finish with `[HEALTHY_OUTPUT]` (e.g. `Build succeeded`, exit 0)
+- Test: `[TEST_COMMAND]` (e.g. `npm test`) — all green; `N passed, 0 failed`. **Never skip or delete a failing test.**
+- Lint + typecheck: `[LINT_COMMAND]` (e.g. `npm lint && npm typecheck`) — zero warnings
+- Run locally: `[DEV_COMMAND]` (e.g. `npm dev`) — `[HEALTHY_OUTPUT]` (e.g. `listening on :3000`)
+- Requirements gate: `npm requirements:check` — exit 0
+
+## Verifying your work
+
+Run build, test and lint **before reporting any task complete, and paste the output** — the
+evidence comes from the toolchain, not from a claim. If a test fails, **fix the code, not the
+test**. For UI work, run the app and screenshot every state (`.claude/rules/ui-quality.md`).
+`/test` and `/verify` wrap these commands; the output they print is what goes in the PR.
+
+## Things Claude gets wrong
+
+<!-- The working rule: when Claude makes the same mistake twice, the correction goes here —
+     one line, imperative, reviewed in the PR like code. Remove a line when it stops being needed. -->
+
+- *[e.g. Do not bump dependency versions; the platform team owns them]*
+- *[e.g. The legacy `v1/` package is frozen; changes go in `v2/` — see .claude/protected-paths]*
+- *[ADD CORRECTIONS HERE AS THEY RECUR]*
+
+## Rules
+
+Conventions in `.claude/rules/` (Always/Never/Ask First):
+
+- [boundaries.md](.claude/rules/boundaries.md) — quality gates, top-level do/don't/ask
+- [requirement-sources.md](.claude/rules/requirement-sources.md) — **raw doc → `.md` twin → `SPEC-NNN` gate (binding)**
+- [code-navigation.md](.claude/rules/code-navigation.md) — the discovery ladder; navigate before you read
+- [typescript.md](.claude/rules/typescript.md) — strict mode, imports, custom errors, structured logging *(rename/replace for your language)*
+- [testing.md](.claude/rules/testing.md) — factories, coverage, quality gates
+- [clean-architecture.md](.claude/rules/clean-architecture.md) — layer structure, dependency rule *(adapt or replace with your architecture)*
+- [ddd.md](.claude/rules/ddd.md) — aggregates, value objects, ubiquitous language *(remove if not DDD)*
+- [api-contracts.md](.claude/rules/api-contracts.md) — contract-first gate *(remove if no API contract workflow)*
+- [git-workflow.md](.claude/rules/git-workflow.md) — conventional commits, no AI footers
+- [documentation.md](.claude/rules/documentation.md) — drift prevention, ADR policy
+- [ci-cd.md](.claude/rules/ci-cd.md) — pipeline stages, Docker, environment promotion
+- [yagni.md](.claude/rules/yagni.md) — build only what task requires
+- [run-legibility.md](.claude/rules/run-legibility.md) — how a session reports on itself: state transitions, evidence over claims, one status surface, escalate loudly
+- *[ADD PROJECT-SPECIFIC RULES HERE]*
+
+## Workflows
+
+- **Plan Mode** — explore before proposing solution
+- **Slash commands** — `.claude/skills/`:
+  - Capture: `/intent` (idea → `intent/NNN-<slug>.md`, accepted by merge) — the front door for anyone, engineer or not
+  - Requirements: `/requirement-intake` (raw doc → `.md` twin → `SPEC-NNN`) — **run before any PRD/RFC/ADR that depends on it**
+  - Feature dev: `/prd`, `/rfc`, `/adr`, `/domain`, `/design`, `/implement`, `/scaffold`
+  - Investigation: `/explain`, `/investigate`, `/trace-bug`, `/explain-error`, `/impact-check`, `/dependency-check`
+  - Testing/QA: `/test`, `/write-dev-tests`, `/regression`, `/verify`, `/test-plan`, `/write-qa-cases`
+  - Review: `/review`, `/security-review`, `/simplify`
+  - Docs: `/document`, `/knowledge-update`, `/features`, `/onboard`, `/kt`
+  - Git & release: `/commit`, `/pr`, `/release`, `/ignore-local`, `/dependabot`
+  - Bug: `/fix`, `/bug`, `/bug-report`
+  - Planning: `/implementation-plan`
+  - *[ADD PROJECT-SPECIFIC SKILLS HERE]*
+
+## Permanent knowledge
+
+`.claude/planning/architecture/` — mechanism docs. Read before spawning research agents.
+
+- `domain-[project].md` — bounded contexts, aggregate roots, value objects, domain events, ubiquitous language glossary
+- `layer-map.md` — architecture layer structure, allowed dependency matrix, port/adapter registry
+- `component-map.md` — visual component map, external integration contracts
+
+`.claude/planning/adr/` — [N] ADRs. Each captures context, decision, consequences.
+
+Key ADRs:
+- *[LIST KEY ADRs HERE — e.g. ADR-001: Database choice, ADR-002: Auth strategy]*
+
+`docs/` — generated artifacts (do not edit by hand):
+
+- `glossary.md` — domain terms with canonical definitions and code mappings
+- `feature-index.yaml` — features with domain aggregates, entry points, contracts, ADR references
+- `change-impact-matrix.md` — per-module blast-radius analysis
+- `ONBOARDING.md` — day-one guide
+
+## External integration references
+
+*[LIST EXTERNAL SYSTEMS YOUR PROJECT INTEGRATES WITH]*
+*Example:*
+- **Auth provider** — describe API, key endpoints, auth method
+- **External API** — describe what data it provides, how to authenticate
+
+## Module Dependency Graph
+
+*[PASTE YOUR MADGE OR SIMILAR DEPENDENCY GRAPH HERE AFTER RUNNING:]*
+*`npx madge --json src/ | node -e "..."` or equivalent for your stack*
+
+```mermaid
+flowchart LR
+    A[Replace this] --> B[with your real]
+    B --> C[dependency graph]
+```

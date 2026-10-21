@@ -1,0 +1,52 @@
+---
+id: <YYYY-MM-slug>
+incident: <issue #N | alert id | Slack thread>
+severity: <S1 | S2>
+date: YYYY-MM-DD
+owner: <team or role that owned the incident>
+fix: <PR #N>
+status: draft | reviewed
+---
+
+# Lesson: <one line — what went wrong, in plain words>
+
+> Written by the team that owned the incident, in the same PR as the fix (`/fix` Phase 5). Read by
+> future investigations before they start — `/trace-bug` and the factory's diagnose run search
+> `docs/lessons/` first. Historical record: never rewritten; a later incident links back here.
+
+## What happened
+
+What users or operators observed, when, and for how long. Numbers where you have them (error
+rate, affected tenants, duration).
+
+## Timeline
+
+| Time | Event |
+|---|---|
+| HH:MM | first signal (alert / report / band breach) |
+| HH:MM | diagnosis began |
+| HH:MM | mitigated (rollback / flag / hotfix) |
+| HH:MM | fixed in `main` |
+
+## Root cause
+
+One paragraph, mechanism-level, with the `file:line` and the commit that introduced it. Not a
+restatement of the symptom.
+
+## Fix
+
+What changed and why that removes the cause — link the PR and the failing→passing test.
+
+## What the loop learned
+
+The point of this file. Tick what was actually done, with the artifact:
+
+- [ ] **Eval added** — `evals/cases/incident-<slug>.json` reproduces the failure; it stays in the suite as a regression test
+- [ ] **CLAUDE.md line** — if an agent made or missed this, the correction added under *Things Claude gets wrong*: "<line>"
+- [ ] **Band tuned** — `.factory/bands.yaml` metric / threshold adjusted, or a new metric that would have caught this earlier
+- [ ] **Guard promoted** — a rule → hook / CI check so the class cannot recur (name it)
+- [ ] **Runbook** — rollback or mitigation step added or corrected
+
+## Open questions
+
+What is still not understood, and who owns finding out.

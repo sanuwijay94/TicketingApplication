@@ -1,0 +1,130 @@
+# AGENTS.md
+
+The operational companion to `CLAUDE.md`: what this project *is*, how to run it, and where code
+lives. `CLAUDE.md` holds the reading order and rules; this file holds the facts an agent needs
+before touching anything.
+
+> **Scope binding.** See `MVP-SCOPE.md` for the authoritative current-slice feature list.
+> PRDs/RFCs describe the long-term vision; MVP-SCOPE describes what is being built now.
+
+## Project
+
+**[PROJECT_NAME]** is [ONE_SENTENCE_DESCRIPTION].
+
+It is composed of:
+
+- **[SERVICE_1]** — [responsibility, one line]
+- **[SERVICE_2]** — [responsibility, one line]
+- **[DATASTORE]** — [schema / storage responsibility]
+
+## Tech Stack
+
+- **Runtime / language**: [e.g. Node.js 24 LTS + TypeScript strict / Python 3.13 / Go 1.24]
+- **Backend framework**: [e.g. NestJS / FastAPI / Chi / Spring Boot]
+- **Frontend**: [e.g. React + Vite / Vue 3 / none]
+- **Primary database**: [e.g. PostgreSQL] — [note any portability constraint]
+- **Cache**: [e.g. Redis / none]
+- **Messaging**: [e.g. RabbitMQ / NATS / none]
+- **External integrations**: [system — what it provides — how it authenticates]
+- **Testing**: [unit runner, integration approach, E2E runner]
+- **Linting / typechecking**: [tools]
+
+## Development Environment
+
+```bash
+[install cmd]              # Install dependencies
+[dev cmd]                  # Start local dev servers
+[stack up cmd]             # Bring up the local service stack + run migrations
+[test cmd]                 # Unit suite
+[test integration cmd]     # Integration tests against the running stack
+[test e2e cmd]             # End-to-end
+[build cmd]                # Build
+[lint cmd]                 # Lint
+[typecheck cmd]            # Type-check only
+```
+
+`docker-compose.yml` brings up [list the services] for development.
+
+> These exact commands appear in `/test`, `/verify`, `/regression`, and `/commit`. If you change
+> them here, change them there — a stale command in a skill fails silently as "no tests ran".
+
+## Project Structure
+
+[Describe the architecture. If using Clean Architecture, dependencies always point inward:
+`presentation → application → domain`, `infrastructure → application → domain`.]
+
+```
+src/
+├── domain/              # Zero external dependencies
+│   ├── entities/        # Aggregate roots and child entities
+│   ├── value-objects/   # Immutable, validated value types
+│   ├── events/          # Domain events (past tense, immutable)
+│   ├── services/        # Stateless domain logic spanning aggregates
+│   └── repositories/    # Repository interfaces (ports) — NO implementations
+│
+├── application/         # Depends on domain only
+│   ├── use-cases/       # One class per use case
+│   ├── ports/           # Input/output port interfaces
+│   └── dtos/            # Data transfer objects
+│
+├── infrastructure/      # Depends on application and domain
+│   ├── repositories/    # Repository implementations (adapters)
+│   ├── persistence/     # Migrations, schema, seed data
+│   └── external/        # Third-party adapters
+│
+└── presentation/        # Depends on application only
+    └── http/            # Controllers, routes, request/response mapping
+
+test/
+├── unit/                # Pure unit tests — domain (no mocks) + application (mock ports)
+├── integration/         # Real datastore via containers
+└── e2e/                 # End-to-end against the full stack
+```
+
+See `.claude/planning/architecture/layer-map.md` for the dependency matrix and port/adapter registry.
+
+## API Contract Workflow
+
+[PROJECT_NAME] follows a **contract-first** workflow so frontend and backend ship in parallel.
+The schemas in [CONTRACT_PACKAGE] are the single source of truth for every endpoint — they drive
+backend validation, frontend types, the OpenAPI document, mock data, and contract tests.
+
+**Rule of thumb**: an endpoint exists when its contract merges, not when its handler ships.
+
+| Step | Output | Who |
+|---|---|---|
+| 1. Contract PR | schemas + OpenAPI metadata + mocks + registry entry | whoever picks up the feature |
+| 2. FE branch (parallel) | screen built against the mock + generated types | FE |
+| 3. BE branch (parallel) | handler + use case; response parsed against the schema | BE |
+| 4. Cutover | FE drops the mock handler; it stays as a test fixture | FE |
+
+**See also**: [`.claude/rules/api-contracts.md`](./.claude/rules/api-contracts.md), and the ADR
+that records this decision for your project.
+
+## Quality Gates
+
+All must pass before merging:
+
+- [test cmd] + [test integration cmd] — all tests pass
+- [typecheck cmd] — no type errors or warnings
+- [lint cmd] — no lint errors or warnings
+- Database migrations are reversible and re-runnable
+- [Any project-specific header/protocol contract, e.g. idempotency, ETag, correlation ID]
+
+## Agents
+
+| Agent | Role |
+|-------|------|
+| `pm-agent` | Requirements, PRDs, domain discovery, stakeholder clarity |
+| `tech-lead-agent` | Architecture, ADRs, domain model design, feasibility, risks |
+| `developer-agent` | Implementation, testing, scaffolding, test generation |
+| `qa-agent` | Test plan design, scenario coverage, regression scoping (read-only) |
+| `ci-cd-agent` | Pipeline design, Docker configuration, deployment strategy |
+| `verify-app` | Quality gate — tests, lint, typecheck, layer boundaries (read-only) |
+| `code-simplifier` | Simplification analysis (read-only) |
+| `security-reviewer` | Security audit (read-only) |
+| `docs-reviewer` | Documentation drift (read-only) |
+
+## Slash Commands
+
+See `CLAUDE.md` § Workflows for the full list, and `SDLC.md` for how they compose into phases.

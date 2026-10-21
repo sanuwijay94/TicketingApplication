@@ -1,0 +1,93 @@
+---
+allowed-tools: Read, Glob, Grep, Bash(rg:*), Bash(git:*)
+description: [ONE_LINE_DESCRIPTION_OF_WHAT_SKILL_DOES]
+argument-hint: '[optional_argument_description]'
+---
+
+[SKILL_PURPOSE_PARAGRAPH — 2-3 sentences explaining what this skill does and why it exists. Be specific about what output it produces and when an engineer would use it.]
+
+## Current State
+
+<!-- Lines starting with `!` run as shell commands and their output is injected before the
+     skill body. Keep them cheap — they run on every invocation. -->
+
+- Branch: !`git branch --show-current`
+- [ADD OTHER RELEVANT STATE CHECKS HERE]
+
+## Argument
+
+$ARGUMENTS — [describe what argument this skill accepts, if any. If none, remove this section.]
+
+## Why This Skill Exists
+
+[1-2 sentences on the specific problem this skill solves that would otherwise require manual file reading or freeform prompting. If you can't state this, the skill probably shouldn't exist.]
+
+## Workflow
+
+> **Navigate before you read (MANDATORY):** resolve location through the discovery ladder in [`.claude/rules/code-navigation.md`](../../rules/code-navigation.md) — feature index → glossary → architecture docs → targeted `rg`. Open raw source only for the minimum section the ladder points at, never a whole file.
+
+### Phase 1: [RESOLVE_THE_TARGET]
+
+[What Claude does first — resolve the argument to concrete files/features via the ladder.]
+
+```bash
+# Which feature owns it?
+rg -n -i '<keyword>' docs/feature-index.yaml docs/glossary.md
+
+# How is the mechanism documented?
+rg -n -i '<keyword>' .claude/planning/architecture/
+
+# Where is it defined?
+rg -n '\b(class|interface|function|const|type|def|struct)\s+<Symbol>\b' server clientApp/src
+```
+
+### Phase 2: [SECOND_PHASE_NAME]
+
+[What Claude does next — reads the minimum source needed, synthesizes, etc.]
+
+### Phase 3: [OUTPUT_PHASE_NAME]
+
+[How Claude formats and presents the output.]
+
+## Output Format
+
+```markdown
+# [SKILL_NAME] Report: [target]
+
+## [SECTION 1]
+[what goes here]
+
+## [SECTION 2]
+[what goes here]
+```
+
+## Testing the trigger
+
+A skill that does not load is a policy that is not applied. Before merging a new or changed skill,
+ask Claude to do the task **three different ways** — a terse command, a natural sentence, and an
+indirect request that implies the task — and confirm the skill loads each time (the `description`
+in the frontmatter is what the router matches; tune it, not the body, when a phrasing misses).
+Record the three phrasings in the PR.
+
+## Policy owner *(policy-derived skills only)*
+
+<!-- If this skill encodes an organisational policy (security standard, API convention, brand or
+     compliance rule), name the owner and the source of truth. The owner signs off every change to
+     this file; engineers pick the new version up in their next session. Remove for utility skills. -->
+
+- Policy: [POLICY_NAME] — source of truth: [LINK_OR_DOC]
+- Owner: [ROLE_OR_TEAM] — approves changes to this skill
+- Deterministic backstop: [HOOK_OR_CI_CHECK, or "none — advisory only"]
+
+## Quality Gates
+
+- ✅ [WHAT_MUST_BE_TRUE for output to be correct]
+- ✅ [ANOTHER_QUALITY_CHECK]
+- ✅ Discovery ladder worked before any source file is opened
+- ✅ Every factual claim backed by a `file:line`, an index entry, or an architecture doc — nothing from memory
+
+## Never
+
+- Edit files — this skill is read-only *(remove this line if the skill writes files)*
+- [OTHER_THINGS_THIS_SKILL_MUST_NOT_DO]
+- Fabricate file paths or symbol names — verify every one against an actual search

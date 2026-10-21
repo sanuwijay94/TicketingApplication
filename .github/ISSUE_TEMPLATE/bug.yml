@@ -1,0 +1,67 @@
+name: Bug / defect
+description: Something is broken (anyone — dev, QA, PM, support — can file this)
+title: "[Bug]: "
+labels: ["type:bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Fill in what you can — a maintainer will set the
+        **severity** (S1–S4) and **lane** (hotfix / scheduled) during triage.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: The actual behaviour, including any error message.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to …
+        2. Click …
+        3. See …
+    validations:
+      required: true
+  - type: input
+    id: found-in
+    attributes:
+      label: Found in version
+      description: Release tag or environment where you saw it.
+      placeholder: "v0.1.0 / staging / local"
+    validations:
+      required: true
+  - type: dropdown
+    id: severity-hint
+    attributes:
+      label: How severe does it feel? (triage will confirm)
+      options:
+        - "S1 — Critical: prod down / data loss / security"
+        - "S2 — Major: key feature broken, no workaround"
+        - "S3 — Minor: broken but there's a workaround"
+        - "S4 — Trivial: cosmetic / low impact"
+        - "Not sure"
+    validations:
+      required: true
+  - type: input
+    id: regressed
+    attributes:
+      label: Related feature / area (optional)
+      description: The feature issue # or area you think this regressed.
+      placeholder: "#126, ui.workflow-designer"
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots / logs (optional)
+    validations:
+      required: false
