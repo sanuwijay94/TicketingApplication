@@ -26,7 +26,7 @@ ADRs, specs, or GitHub issues yet** — [MVP-SCOPE.md](../MVP-SCOPE.md) records 
 TicketingApplication/
   server/                  Express 4 API — plain JavaScript, CommonJS — :3000
     bin/www  app.js  authentication.js
-    routes/  controllers/  middleware/  models/  populateDB.js
+    routes/  controllers/  middleware/  models/  test/  populateDB.js
     node_modules/          COMMITTED (5k+ files) — protected; don't touch
   clientApp/               Angular 8 SPA — TypeScript 3.5 — :4200
     src/app/               auth.service.ts, token-interceptor.service.ts, auth.guard.ts,
@@ -79,7 +79,7 @@ Follow one ticket through the system. Each step is two or three files.
    (`:19-20`); the screen then stores `token` and `auth-user` (`login.component.ts:29-30`).
 4. **Every request after that.** `token-interceptor.service.ts:16` adds `x-access-token`.
    `AuthGuard` (`auth.guard.ts:10`) only checks that a token *exists*. The server verifies it per
-   route in `authentication.js` — `:15` verify, `:16` the Supervisor check that returns 403.
+   route in `authentication.js` — `:17` verify, `:21` the Supervisor check that returns 403.
 5. **List and create tickets.** `tickets/tickets.component.ts:27` loads tickets (`:31`) and users for
    the assignee dropdown (`:48`). `createTicket` (`:75`) fills `submitter` from `localStorage` (`:76`)
    → `ticket_create_post` (`ticketController.js:39`): `indicative` validation, then save.
@@ -138,7 +138,7 @@ Adopting a real shared contract would be an architectural change — **Ask First
    exception: they need Node ≥ 14 (`"$NVM_HOME/v24.21.0/node.exe" scripts/<script>.mjs`). Never run
    `npm install` in `server/`: its 5k+ tracked files are protected and the hook blocks edits to them.
 2. **The quality gates aren't green yet.** All **11 client specs fail** (unconfigured CLI scaffolds),
-   `ng lint` reports a pass but checks nothing (no `tslint.json`), and there are no server tests.
+   `ng lint` reports a pass but checks nothing (no `tslint.json`), and the only server test is one dependency-free script for the token guard (`cd server && npm test`).
    Worse, `/test` runs `npm run test:unit`, `npm run lint`, … and there is no root `package.json`,
    so **`/test`, `/verify`, and `/commit` (which runs `/test` first) can't pass until adapted**
    (`docs/PORTING.md` step 5, not done). Run the commands in [CLAUDE.md](../CLAUDE.md) and compare
