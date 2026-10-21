@@ -1,0 +1,61 @@
+---
+# ─── Binding frontmatter — every field required. Validated by
+#     scripts/ci/check-requirement-drift.mjs. See .claude/rules/requirement-sources.md
+id: SPEC-NNN                        # sequential, stable; never reused
+title: <what this spec governs>
+feature: <feature key as used in docs/feature-index.yaml>
+status: Draft                       # Draft | Active | Superseded
+source: <path/to/requirement.md>    # the CONVERTED twin, never the raw .docx
+section: "<heading text in the source, verbatim>"   # "—" if the whole document
+source_hash: sha256:<16-hex>        # first 16 hex of `shasum -a 256 <source>`
+derived: YYYY-MM-DD
+owner: <team or role accountable for keeping this current>
+supersedes: []                      # [SPEC-NNN, …]
+---
+
+# <Title>
+
+> **This is the governing specification.** AI and implementers read *this*, not the raw
+> requirement document. If it is wrong or stale, fix it here — do not work around it from the
+> source. A `source_hash` mismatch means the requirement changed underneath this file; CI fails
+> until it is re-derived.
+
+## Scope
+
+One paragraph: what question this spec answers, and — just as importantly — what it does not
+cover. Name the adjacent specs that own the rest.
+
+## Normative rules
+
+The actual content. Numbered so they can be cited (`SPEC-NNN §R3`) from PRDs, ADRs, test cases,
+and commit messages.
+
+Write rules as **statements of required behaviour**, not narrative. A reader must be able to
+answer the governing question from this section alone, without opening the source.
+
+- **R1** — …
+- **R2** — …
+
+## Reference detail
+
+Tables, enumerations, and mappings the rules depend on. Where the converted source already
+carries a well-formed table, cite it by section rather than copying — but only when the citation
+is precise enough that a reader does not have to search:
+
+> Full per-report column mapping: `<source>` § `<section>`.
+
+Copy the table here instead whenever it is short, frequently needed, or the source section is
+sprawling.
+
+## Known gaps / deliberate omissions
+
+Anything the source leaves undefined, contradicts elsewhere, or defers. **Say so explicitly** —
+an unstated gap gets silently invented by whoever reads this next.
+
+## Traceability
+
+| Governs | Artifact |
+|---|---|
+| Implementation | `<paths>` |
+| Decisions | ADR-NNN, RFC-NNN |
+| Tests | `<TC-NNN ids / spec paths>` |

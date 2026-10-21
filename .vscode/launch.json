@@ -1,0 +1,41 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Server: Express API",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/server/bin/www",
+      "cwd": "${workspaceFolder}/server",
+      "runtimeVersion": "10.24.1",
+      "env": {
+        "PORT": "3000",
+        "NODE_ENV": "development",
+        "DEBUG": "project:*"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/server/node_modules/**"
+      ]
+    },
+    {
+      "name": "Client: Angular (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/clientApp",
+      "preLaunchTask": "ng serve",
+      "sourceMapPathOverrides": {
+        "webpack:///./src/*": "${webRoot}/src/*"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack: Server + Client",
+      "configurations": ["Server: Express API", "Client: Angular (Chrome)"],
+      "stopAll": true
+    }
+  ]
+}

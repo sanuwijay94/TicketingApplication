@@ -1,0 +1,4 @@
+# Claude Code harness — per-session state, scratch output, and personal settings
+.claude/session-state/
+.claude/settings.local.json
+tmp/

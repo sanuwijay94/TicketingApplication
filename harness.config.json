@@ -1,0 +1,34 @@
+{
+  "$comment": "agent-harness-v2 values for TicketingApplication. Stack: Express 4 (plain JS, CommonJS) + Mongoose 5 / MongoDB 4.4 in server/; Angular 8 + TypeScript in clientApp/; npm, no workspaces, no shared contract package. Install or update from the repo root: bash ../agent-harness-v2/install.sh . --config harness.config.json [--force]. Local Windows fixes to .claude/hooks and .claude/settings.json are reverted by --force; re-apply them after an update.",
+
+  "PROJECT_NAME": "Ticketing Application",
+  "PROJECT_SLUG": "ticketing-application",
+  "PROJECT_ABBR": "TKT",
+
+  "PKG_MANAGER": "npm",
+  "LANGUAGE": "JavaScript (server) + TypeScript (client)",
+
+  "BACKEND_PKG": "server",
+  "FRONTEND_PKG": "clientApp",
+  "CONTRACT_PKG": "server/models",
+
+  "BACKEND_FRAMEWORK": "Express 4",
+  "FRONTEND_FRAMEWORK": "Angular 8",
+  "UI_COMPONENT_LIB": "Bootstrap 4",
+  "UI_DATA_LAYER": "Angular HttpClient services",
+  "UI_STYLING": "Bootstrap 4 CSS",
+  "DATABASE": "MongoDB",
+  "ORM": "Mongoose",
+  "SCHEMA_LIB": "Mongoose",
+  "TEST_RUNNER": "Karma + Jasmine",
+  "E2E_RUNNER": "Protractor",
+  "LINTER": "TSLint",
+
+  "SRC_GLOB": "server clientApp/src",
+  "SOURCE_EXT": "js,ts",
+  "SOURCE_EXT_RE": "\\.(js|ts)",
+  "CONTRACT_IMPORT": "../models/",
+
+  "SERVICE_API": "server",
+  "HUB_THRESHOLD": "5"
+}

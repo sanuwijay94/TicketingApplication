@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ng serve",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/clientApp",
+        "env": {
+          // Angular 8 (webpack 4) breaks on Node 17+, so pin the nvm-installed Node 10.
+          "PATH": "${env:NVM_HOME}\\v10.24.1;${env:PATH}",
+          // Stop the Angular CLI 8 analytics prompt from blocking the task terminal.
+          "NG_CLI_ANALYTICS": "false"
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeBegins": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "(Compiled |Failed to compile)"
+          }
+        }
+      }
+    }
+  ]
+}
