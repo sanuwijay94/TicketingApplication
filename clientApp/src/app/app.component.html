@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-  <!-- Brand -->
-  <a class="navbar-brand" href="#">TicketApp</a>
+  <!-- Brand: plain text on Login and Register (and until the first screen settles), a link elsewhere -->
+  <span class="navbar-brand" *ngIf="topBar !== 'other'">TicketApp</span>
+  <a class="navbar-brand" href="#" *ngIf="topBar === 'other'">TicketApp</a>
 
   <!-- Toggler/collapsibe Button -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -10,17 +11,17 @@
   <!-- Navbar links -->
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="topBar === 'other' && _authService.LoggedIn()">
         <a class="nav-link" routerLink="/tickets" routerLinkActive="active">Tickets</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="topBar === 'other' && _authService.LoggedIn()">
         <a class="nav-link" routerLink="/myTickets" routerLinkActive="active">My Tickets</a>
       </li>
     </ul>
     <ul class="navbar-nav">
-      <a class="nav-link" *ngIf="!_authService.LoggedIn()" routerLink="/login" routerLinkActive="active">Login</a>
-      <a class="nav-link" *ngIf="!_authService.LoggedIn()" routerLink="/register" routerLinkActive="active">Register</a>
-      <a class="nav-link" style="cursor:pointer" *ngIf="_authService.LoggedIn()" (click)="_authService.logoutUser()">Logout</a>
+      <a class="nav-link" *ngIf="topBar === 'register' || (topBar === 'other' && !_authService.LoggedIn())" routerLink="/login" routerLinkActive="active">Login</a>
+      <a class="nav-link" *ngIf="topBar === 'login' || (topBar === 'other' && !_authService.LoggedIn())" routerLink="/register" routerLinkActive="active">Register</a>
+      <a class="nav-link" style="cursor:pointer" *ngIf="topBar === 'other' && _authService.LoggedIn()" (click)="_authService.logoutUser()">Logout</a>
     </ul>
   </div>
 </nav>

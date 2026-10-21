@@ -30,11 +30,13 @@ const routes: Routes = [
     },
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        data: { topBar: 'login' }
     },
     {
         path: 'register',
-        component: RegisterComponent
+        component: RegisterComponent,
+        data: { topBar: 'register' }
     }
 ];
 
